@@ -14,17 +14,28 @@
         "aarch64-darwin"
       ];
 
-      perSystem = { system, pkgs, ... }:
+      perSystem = { system, ... }:
         let
-          hpkgs = pkgs.haskell.packages.ghc912.override (_: {
-            overrides = (_: super: {
-              ghc = super.ghc.overrideAttrs (old: {
-                nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.llvmPackages_19.llvm ];
-              });
+          pkgs = import nixpkgs {
+            localSystem = { inherit system; };
 
+            overlays = [
+              (final: prev: {
+                ghcUseLlvm = (prev.haskell.packages.ghc912.ghc.override {
+                  stdenv = final.llvmPackages_19.stdenv;
+                }).overrideAttrs (old: {
+                  nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ final.llvmPackages_19.llvm ];
+                });
+              })
+            ];
+          };
+
+          hpkgs = pkgs.haskell.packages.ghc912.override {
+            ghc = pkgs.ghcUseLlvm;
+            overrides = _: super: {
               network = pkgs.haskell.lib.dontCheck super.network;
-            });
-          });
+            };
+          };
 
           related-post-gen = pkgs.haskell.lib.overrideCabal (hpkgs.callCabal2nix "related-post-gen" ./. { }) (_: {
             doCheck = true;
@@ -34,6 +45,8 @@
           });
         in
         {
+          _module.args.pkgs = pkgs;
+
           packages.default = related-post-gen;
 
           devShells.default = pkgs.mkShell {
@@ -45,6 +58,7 @@
               hpkgs.ghc
               pkgs.haskellPackages.cabal-fmt
               pkgs.haskellPackages.implicit-hie
+              pkgs.llvmPackages_19.llvm
             ];
           };
         };
