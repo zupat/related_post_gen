@@ -24,3 +24,7 @@ cabal.project.local~
 
 # benchmark
 baseline.csv
+
+.envrc
+.direnv
+result
