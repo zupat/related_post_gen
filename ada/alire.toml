@@ -1,0 +1,13 @@
+name = "rel_post_gen"
+description = "Ada benchmark"
+version = "0.1.0"
+
+authors = ["Nikita Vorontsov "]
+maintainers = ["Nikita Vorontsov  <example@example.com>"]
+licenses = "GPL-3.0-or-later"
+website = "https://github.com/zupat/related_post_gen"
+tags = []
+
+executables = ["rel_post_gen"]
+[[depends-on]]
+gnatcoll = "^26.0.0"

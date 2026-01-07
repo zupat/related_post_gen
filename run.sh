@@ -73,6 +73,14 @@ run_command() {
     fi
 }
 
+run_ada() {
+    echo "Running Ada" &&
+        cd ./ada &&
+        alr build --release &&
+        run_command "Ada" $runs ./bin/rel_post_gen &&
+        check_output "related_posts_ada.json"
+}
+
 run_go() {
     echo "Running Go" &&
         cd ./go &&
@@ -971,6 +979,10 @@ elif [ "$first_arg" = "inko" ]; then
 elif [ "$first_arg" = "neat" ]; then
 
     run_neat
+
+elif [ "$first_arg" = "ada" ]; then
+
+    run_ada
 
 elif [ "$first_arg" = "all" ]; then
 
