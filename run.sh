@@ -77,7 +77,7 @@ run_ada() {
     echo "Running Ada" &&
         cd ./ada &&
         alr build --release &&
-        run_command "Ada" $runs ./bin/rel_post_gen &&
+        run_command "Ada" $runs ./bin/main &&
         check_output "related_posts_ada.json"
 }
 
