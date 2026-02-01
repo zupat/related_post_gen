@@ -61,30 +61,28 @@ fn main() -> io::Result<()> {
 
             let mut topk = [(0u8, 0u32); NUM_TOP_ITEMS];
             let mut min_tags = 0u8;
-            for (c, chunk) in tagged_post_count.chunks(CHUNK_SIZE).enumerate() {
+            for (c, chunk) in tagged_post_count.chunks_mut(CHUNK_SIZE).enumerate() {
                 let mut process_chunk = false;
-                for &count in chunk {
+                for &count in chunk.iter() {
                     process_chunk |= count > min_tags;
                 }
                 if process_chunk {
                     for (j, &count) in chunk.iter().enumerate() {
                         if count > min_tags {
-                            let pos = topk
-                                .iter()
-                                .rev()
-                                .position(|t| t.0 > count)
-                                .map_or(0, |p| NUM_TOP_ITEMS - p);
-
-                            topk.copy_within(pos..NUM_TOP_ITEMS - 1, pos + 1);
-                            topk[pos] = (count, (c * CHUNK_SIZE + j) as u32);
-
+                            // Insert at end, bubble up
+                            topk[NUM_TOP_ITEMS - 1] = (count, (c * CHUNK_SIZE + j) as u32);
+                            for i in (0..NUM_TOP_ITEMS - 1).rev() {
+                                if topk[i].0 >= count {
+                                    break;
+                                }
+                                topk.swap(i, i + 1);
+                            }
                             min_tags = topk[NUM_TOP_ITEMS - 1].0;
                         }
                     }
                 }
+                chunk.fill(0); // zero while still in L1 cache
             }
-
-            tagged_post_count.fill(0);
 
             RelatedPosts {
                 id: post.id,
