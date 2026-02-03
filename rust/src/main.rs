@@ -1,5 +1,4 @@
-use aligned_vec::avec;
-use hashbrown::HashMap;
+use rustc_hash::{FxBuildHasher, FxHashMap};
 use serde::{Deserialize, Serialize};
 use std::{
     fs::OpenOptions,
@@ -36,7 +35,8 @@ fn main() -> io::Result<()> {
 
     let start = Instant::now();
 
-    let mut post_tags_map = HashMap::<&str, Vec<u32>>::with_capacity(128);
+    let mut post_tags_map =
+        FxHashMap::<&str, Vec<u32>>::with_capacity_and_hasher(128, FxBuildHasher);
     for (post_idx, post) in posts.iter().enumerate() {
         for tag in &post.tags {
             post_tags_map
@@ -47,7 +47,7 @@ fn main() -> io::Result<()> {
     }
 
     const CHUNK_SIZE: usize = 64;
-    let mut tagged_post_count = avec![0u8; posts.len().next_multiple_of(CHUNK_SIZE)];
+    let mut tagged_post_count = vec![0u8; posts.len().next_multiple_of(CHUNK_SIZE)];
     let related_posts: Vec<_> = posts
         .iter()
         .enumerate()
