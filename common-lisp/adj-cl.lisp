@@ -95,5 +95,5 @@
     (format t "Processed ~d posts~%" num-posts)
     (format t "Processing time (w/o IO): ~2$ s~%" (- T2 T1))))
 
-;;(save-lisp-and-die "related" :toplevel #'main :executable t :save-runtime-options t)
+(save-lisp-and-die "related" :toplevel #'main :executable t :save-runtime-options t)
 
