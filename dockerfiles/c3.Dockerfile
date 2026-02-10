@@ -1,5 +1,5 @@
 # install c3
-RUN wget 'https://github.com/c3lang/c3c/releases/download/v0.7.1/c3-linux.tar.gz' -O /home/builduser/c3.tar.gz
+RUN wget 'https://github.com/c3lang/c3c/releases/download/v0.7.9/c3-linux.tar.gz' -O /home/builduser/c3.tar.gz
 
 RUN tar zxvf /home/builduser/c3.tar.gz -C /home/builduser
 
