@@ -1,5 +1,6 @@
 rust/target
 rust_con/target
+rust_ho/target
 go/related
 common-lisp/related
 go_con/related_concurrent
