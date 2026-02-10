@@ -126,6 +126,14 @@ run_rust_con() {
 
 }
 
+run_rust_ho() {
+    echo "Running Rust HO" &&
+        cd ./rust_ho &&
+        cargo build --release &&
+        run_command "Rust HO" $runs ./target/release/rust_ho &&
+        check_output "related_posts_rust_ho.json"
+}
+
 run_python() {
     echo "Running Python" &&
         cd ./python &&
@@ -761,6 +769,10 @@ elif [ "$first_arg" = "rust" ]; then
 elif [ "$first_arg" = "rust_con" ]; then
 
     run_rust_con
+
+elif [ "$first_arg" = "rust_ho" ]; then
+
+    run_rust_ho
 
 elif [ "$first_arg" = "py" ]; then
 
