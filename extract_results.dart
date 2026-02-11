@@ -13,7 +13,14 @@ const multiCoreHeading = '''
 ### Multicore Results
 
 | Language       | Time (5k posts) | 20k posts        | 60k posts        | Total     |
-| -------------- | --------------- | ---------------- | ---------------- | --------- |
+| -------------- | --------------- | ---------------- | ---------------- | --------- | 
+''';
+
+const highlyOptimizedHeading = '''
+### Highly Optimised Results
+
+| Language       | Time (5k posts) | 20k posts        | 60k posts        | Total     |
+| -------------- | --------------- | ---------------- | ---------------- | --------- | 
 ''';
 
 var min5k = double.maxFinite;
@@ -22,6 +29,9 @@ var min60k = double.maxFinite;
 var con_min5k = double.maxFinite;
 var con_min20k = double.maxFinite;
 var con_min60k = double.maxFinite;
+var ho_min5k = double.maxFinite;
+var ho_min20k = double.maxFinite;
+var ho_min60k = double.maxFinite;
 
 void main(List<String> args) {
   final filename = args.firstOrNull;
@@ -86,9 +96,14 @@ void main(List<String> args) {
       .where((s) => s.first.name.contains('Concurrent'))
       .toList();
 
-  sortedScores..removeWhere((s) => s.first.name.contains('Concurrent'));
+  final hoScores = sortedScores
+      .where((s) => {'Julia HO', 'D HO', 'Rust HO'}.contains(s.first.name))
+      .toList();
 
-  if (sortedScores.first.length != 3) {
+  sortedScores.removeWhere((s) => s.first.name.contains('Concurrent'));
+  sortedScores.removeWhere((s) => {'Julia HO', 'D HO', 'Rust HO'}.contains(s.first.name));
+
+  if (sortedScores.isNotEmpty && sortedScores.first.length != 3) {
     sortedScores.forEach(print);
     print(
       '${lines}\n\nEnough scores not found. Need 3 scores for each language to update readme.md - $currentLang',
@@ -96,19 +111,16 @@ void main(List<String> args) {
     return;
   }
 
-  final scoresWithoutHO = sortedScores
-      .where((s) => !{'Julia HO', 'D HO', 'Rust HO'}.contains(s.first.name))
-      .toList();
   // caclulate min times
-  min5k = scoresWithoutHO.fold(
+  min5k = sortedScores.fold(
     min5k,
     (min, sc) => sc[0].avgTimeMS() < min ? sc[0].avgTimeMS() : min,
   );
-  min20k = scoresWithoutHO.fold(
+  min20k = sortedScores.fold(
     min20k,
     (min, sc) => sc[1].avgTimeMS() < min ? sc[1].avgTimeMS() : min,
   );
-  min60k = scoresWithoutHO.fold(
+  min60k = sortedScores.fold(
     min60k,
     (min, sc) => sc[2].avgTimeMS() < min ? sc[2].avgTimeMS() : min,
   );
@@ -122,6 +134,18 @@ void main(List<String> args) {
   );
   con_min60k = multiCoreScores.fold(
     con_min60k,
+    (min, sc) => sc[2].avgTimeMS() < min ? sc[2].avgTimeMS() : min,
+  );
+  ho_min5k = hoScores.fold(
+    ho_min5k,
+    (min, sc) => sc[0].avgTimeMS() < min ? sc[0].avgTimeMS() : min,
+  );
+  ho_min20k = hoScores.fold(
+    ho_min20k,
+    (min, sc) => sc[1].avgTimeMS() < min ? sc[1].avgTimeMS() : min,
+  );
+  ho_min60k = hoScores.fold(
+    ho_min60k,
     (min, sc) => sc[2].avgTimeMS() < min ? sc[2].avgTimeMS() : min,
   );
 
@@ -157,10 +181,12 @@ void main(List<String> args) {
             sortedScores.map((e) => e.toRowString()).join('\n') + '\n\n';
         final mCoreLines =
             multiCoreScores.map((e) => e.toRowString()).join('\n') + '\n\n';
+        final hoLines =
+            hoScores.map((e) => e.toRowString()).join('\n') + '\n\n';
         // final memUsageLines = sortedMemScores.map((e) => e.toRowString(true)).join('\n') + '\n\n';
 
         // add back the line with detail opening tag
-        return sCoreLines + multiCoreHeading + mCoreLines + line;
+        return sCoreLines + multiCoreHeading + mCoreLines + highlyOptimizedHeading + hoLines + line;
         // return sCoreLines + multiCoreHeading + mCoreLines + memUsageHeading + memUsageLines + line;
       })
       .whereType<String>()
@@ -208,6 +234,7 @@ class Score {
 extension on List<Score> {
   String toRowString() {
     var name = first.name;
+    final originalName = name;
 
     if (name == 'Julia HO') {
       name = '_Julia HO_[^1]';
@@ -220,9 +247,11 @@ extension on List<Score> {
     }
 
     final isConcurrent = name.contains('Concurrent');
-    final min5KToUse = isConcurrent ? con_min5k : min5k;
-    final min20KToUse = isConcurrent ? con_min20k : min20k;
-    final min60KToUse = isConcurrent ? con_min60k : min60k;
+    final isHO = {'Julia HO', 'D HO', 'Rust HO'}.contains(originalName);
+
+    final min5KToUse = isConcurrent ? con_min5k : (isHO ? ho_min5k : min5k);
+    final min20KToUse = isConcurrent ? con_min20k : (isHO ? ho_min20k : min20k);
+    final min60KToUse = isConcurrent ? con_min60k : (isHO ? ho_min60k : min60k);
 
     final fiveKTime = first.avgTimeMS() == min5KToUse
         ? '\$\\textsf{\\color{lightgreen}${first.avgTimeString()}}\$'

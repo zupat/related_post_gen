@@ -66,9 +66,6 @@ docker run -e TEST_NAME=go -it --rm go_databench
 
 | Language         | Time (5k posts)                       | 20k posts                              | 60k posts                           | Total     |
 | ---------------- | ------------------------------------- | -------------------------------------- | ----------------------------------- | --------- |
-| _Rust HO_[^1] | 4.29 ms | 13.02 ms | 34.24 ms | 51.55 ms |
-| _D HO_[^1] | 10.77 ms | 40.07 ms | 113.05 ms | 163.89 ms |
-| _Julia HO_[^1] | 5.90 ms | 108.67 ms | 80.67 ms | 195.23 ms |
 | D (v2) | 12.06 ms | $\textsf{\color{lightgreen}122.21 ms}$ | $\textsf{\color{lightgreen}961.08 ms}$ | 1.10 s |
 | Rust | $\textsf{\color{lightgreen}9.84 ms}$ | 124.59 ms | 1.10 s | 1.23 s |
 | c3 | 10.50 ms | 141.00 ms | 1.13 s | 1.28 s |
@@ -115,7 +112,7 @@ docker run -e TEST_NAME=go -it --rm go_databench
 ### Multicore Results
 
 | Language       | Time (5k posts) | 20k posts        | 60k posts        | Total     |
-| -------------- | --------------- | ---------------- | ---------------- | --------- |
+| -------------- | --------------- | ---------------- | ---------------- | --------- | 
 | D Concurrent (v2) | 6.22 ms | 46.71 ms | $\textsf{\color{lightgreen}273.33 ms}$ | 326.26 ms |
 | D Concurrent | 6.65 ms | 50.79 ms | 345.70 ms | 403.15 ms |
 | C++ Concurrent | $\textsf{\color{lightgreen}4.00 ms}$ | $\textsf{\color{lightgreen}46.33 ms}$ | 379.67 ms | 430.00 ms |
@@ -132,6 +129,14 @@ docker run -e TEST_NAME=go -it --rm go_databench
 | Java Concurrent (JIT) | 63.00 ms | 191.33 ms | 1.16 s | 1.41 s |
 | Numba Concurrent | 20.75 ms | 181.30 ms | 1.36 s | 1.56 s |
 | Java (GraalVM) Concurrent | 12.00 ms | 209.33 ms | 1.51 s | 1.73 s |
+
+### Highly Optimised Results
+
+| Language       | Time (5k posts) | 20k posts        | 60k posts        | Total     |
+| -------------- | --------------- | ---------------- | ---------------- | --------- | 
+| _Rust HO_[^1] | $\textsf{\color{lightgreen}4.29 ms}$ | $\textsf{\color{lightgreen}13.02 ms}$ | $\textsf{\color{lightgreen}34.24 ms}$ | 51.55 ms |
+| _D HO_[^1] | 10.77 ms | 40.07 ms | 113.05 ms | 163.89 ms |
+| _Julia HO_[^1] | 5.90 ms | 108.67 ms | 80.67 ms | 195.23 ms |
 
 <details>
 <summary> Old Results with details (on my machine) </summary>
