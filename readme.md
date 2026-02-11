@@ -66,70 +66,71 @@ docker run -e TEST_NAME=go -it --rm go_databench
 
 | Language         | Time (5k posts)                       | 20k posts                              | 60k posts                           | Total     |
 | ---------------- | ------------------------------------- | -------------------------------------- | ----------------------------------- | --------- |
-| _Julia HO_[^1] | 6.80 ms | 23.00 ms | 99.33 ms | 129.13 ms |
-| _D HO_[^1] | 11.21 ms | 42.84 ms | 122.06 ms | 176.11 ms |
-| D (v2) | 13.97 ms | $\textsf{\color{lightgreen}146.70 ms}$ | $\textsf{\color{lightgreen}1.14 s}$ | 1.30 s |
-| Rust | $\textsf{\color{lightgreen}11.54 ms}$ | 149.96 ms | 1.30 s | 1.46 s |
-| c3 | 13.00 ms | 164.67 ms | 1.33 s | 1.51 s |
-| C++ | 16.10 ms | 202.67 ms | 1.72 s | 1.94 s |
-| Zig | 17.00 ms | 233.67 ms | 1.99 s | 2.24 s |
-| Odin | 18.74 ms | 248.22 ms | 2.12 s | 2.39 s |
-| Neat | 22.52 ms | 301.30 ms | 2.54 s | 2.87 s |
-| Java (JIT) | 24.60 ms | 299.00 ms | 2.62 s | 2.94 s |
-| C# (JIT) | 22.53 ms | 314.86 ms | 2.76 s | 3.10 s |
-| C# (AOT) | 21.48 ms | 318.20 ms | 2.79 s | 3.12 s |
-| Haskell | 26.65 ms | 347.84 ms | 2.81 s | 3.19 s |
-| Nim | 22.34 ms | 337.00 ms | 2.95 s | 3.31 s |
-| F# (JIT) | 25.02 ms | 354.38 ms | 3.02 s | 3.40 s |
-| Julia | 23.66 ms | 350.96 ms | 3.10 s | 3.47 s |
-| Vlang | 26.39 ms | 372.67 ms | 3.24 s | 3.64 s |
-| Go | 25.79 ms | 390.86 ms | 3.48 s | 3.89 s |
-| D | 29.92 ms | 413.98 ms | 3.60 s | 4.05 s |
-| Swift | 36.61 ms | 482.22 ms | 4.19 s | 4.71 s |
-| F# (AOT) | 37.92 ms | 570.90 ms | 5.07 s | 5.68 s |
-| Java (GraalVM) | 33.30 ms | 504.00 ms | 5.47 s | 6.01 s |
-| Crystal | 45.64 ms | 690.35 ms | 6.03 s | 6.77 s |
-| Numba | 66.15 ms | 827.15 ms | 6.94 s | 7.83 s |
-| Pypy | 72.62 ms | 858.90 ms | 7.38 s | 8.31 s |
-| LuaJIT | 73.52 ms | 930.36 ms | 7.84 s | 8.84 s |
-| JS (Bun) | 80.80 ms | 975.00 ms | 8.49 s | 9.55 s |
-| Dart AOT | 69.80 ms | 1.07 s | 9.43 s | 10.57 s |
-| Dart VM | 61.50 ms | 989.67 ms | 9.94 s | 10.99 s |
-| JS (Deno) | 96.40 ms | 1.17 s | 10.61 s | 11.88 s |
-| JS (Node) | 99.00 ms | 1.12 s | 11.03 s | 12.25 s |
-| Clojure | 111.90 ms | 1.31 s | 10.97 s | 12.39 s |
-| Common Lisp (SBCL) | 154.00 ms | 1.34 s | 11.20 s | 12.69 s |
-| Ocaml | 99.40 ms | 1.46 s | 13.05 s | 14.61 s |
-| Typed Racket | 136.36 ms | 1.96 s | 16.31 s | 18.41 s |
-| Racket | 135.03 ms | 2.04 s | 16.69 s | 18.87 s |
-| Scala Native | 287.70 ms | 3.51 s | 30.07 s | 33.87 s |
-| LuaJIT (JIT OFF) | 630.13 ms | 8.72 s | 83.86 s | 93.21 s |
-| Erlang | 758.95 ms | 12.50 s | 107.46 s | 120.72 s |
-| Lua | 976.54 ms | 15.09 s | 136.84 s | 152.90 s |
-| Python | 1.51 s | 24.84 s | 215.18 s | 241.53 s |
-| Lobster (JIT) | 1.63 s | 25.43 s | 227.06 s | 254.13 s |
-| Ruby | 1.78 s | 28.77 s | 254.93 s | 285.48 s |
+| _D HO_[^1] | 10.77 ms | 40.07 ms | 113.05 ms | 163.89 ms |
+| _Julia HO_[^1] | 5.90 ms | 108.67 ms | 80.67 ms | 195.23 ms |
+| D (v2) | 12.06 ms | $\textsf{\color{lightgreen}122.21 ms}$ | $\textsf{\color{lightgreen}961.08 ms}$ | 1.10 s |
+| Rust | $\textsf{\color{lightgreen}9.84 ms}$ | 124.59 ms | 1.10 s | 1.23 s |
+| c3 | 10.50 ms | 141.00 ms | 1.13 s | 1.28 s |
+| Zig | 15.00 ms | 199.33 ms | 1.71 s | 1.93 s |
+| C++ | 15.00 ms | 204.33 ms | 1.76 s | 1.98 s |
+| Odin | 14.87 ms | 208.01 ms | 1.78 s | 2.00 s |
+| Go | 16.64 ms | 240.66 ms | 2.12 s | 2.37 s |
+| Java (JIT) | 20.80 ms | 246.00 ms | 2.12 s | 2.39 s |
+| Neat | 19.01 ms | 254.22 ms | 2.15 s | 2.42 s |
+| Haskell | 21.10 ms | 277.44 ms | 2.24 s | 2.54 s |
+| Nim | 18.23 ms | 259.83 ms | 2.29 s | 2.57 s |
+| F# (AOT) | 18.68 ms | 266.89 ms | 2.33 s | 2.61 s |
+| C# (JIT) | 21.20 ms | 296.19 ms | 2.48 s | 2.80 s |
+| D | 22.64 ms | 297.77 ms | 2.56 s | 2.88 s |
+| Julia | 19.51 ms | 296.29 ms | 2.58 s | 2.90 s |
+| Vlang | 22.08 ms | 318.69 ms | 2.76 s | 3.10 s |
+| C# (AOT) | 21.21 ms | 320.34 ms | 2.99 s | 3.34 s |
+| Swift | 28.94 ms | 384.12 ms | 3.32 s | 3.74 s |
+| F# (JIT) | 27.57 ms | 377.57 ms | 3.46 s | 3.87 s |
+| Java (GraalVM) | 34.30 ms | 422.33 ms | 3.64 s | 4.10 s |
+| Crystal | 38.90 ms | 577.98 ms | 5.12 s | 5.74 s |
+| JS (Bun) | 60.80 ms | 743.67 ms | 6.30 s | 7.10 s |
+| LuaJIT | 63.19 ms | 801.74 ms | 6.56 s | 7.42 s |
+| Pypy | 59.74 ms | 700.40 ms | 6.68 s | 7.44 s |
+| Numba | 62.86 ms | 803.85 ms | 6.81 s | 7.68 s |
+| Dart VM | 57.50 ms | 885.00 ms | 7.11 s | 8.05 s |
+| JS (Node) | 80.40 ms | 913.33 ms | 7.77 s | 8.77 s |
+| Dart AOT | 59.30 ms | 900.67 ms | 7.93 s | 8.89 s |
+| Common Lisp (SBCL) | 130.00 ms | 985.00 ms | 8.15 s | 9.27 s |
+| Clojure | 95.60 ms | 1.10 s | 9.27 s | 10.47 s |
+| JS (Deno) | 84.90 ms | 1.15 s | 10.50 s | 11.74 s |
+| Ocaml | 84.60 ms | 1.30 s | 11.58 s | 12.96 s |
+| Racket | 114.55 ms | 1.71 s | 13.91 s | 15.74 s |
+| Typed Racket | 117.17 ms | 1.77 s | 13.97 s | 15.85 s |
+| Scala Native | 260.20 ms | 3.08 s | 25.91 s | 29.25 s |
+| Lobster (JIT) | 468.85 ms | 7.17 s | 63.88 s | 71.52 s |
+| LuaJIT (JIT OFF) | 543.40 ms | 8.23 s | 82.45 s | 91.22 s |
+| Erlang | 647.18 ms | 10.30 s | 90.75 s | 101.70 s |
+| PHP | 611.30 ms | 9.80 s | 92.21 s | 102.62 s |
+| Lua | 837.32 ms | 12.76 s | 116.07 s | 129.66 s |
+| Python | 1.07 s | 16.67 s | 147.84 s | 165.58 s |
+| Ruby | 1.49 s | 24.06 s | 206.08 s | 231.63 s |
 
 ### Multicore Results
 
 | Language       | Time (5k posts) | 20k posts        | 60k posts        | Total     |
 | -------------- | --------------- | ---------------- | ---------------- | --------- |
-| D Concurrent (v2) | 7.21 ms | $\textsf{\color{lightgreen}54.85 ms}$ | $\textsf{\color{lightgreen}326.77 ms}$ | 388.83 ms |
-| C# Concurrent (JIT) | 6.56 ms | 55.32 ms | 450.54 ms | 512.42 ms |
-| C++ Concurrent | $\textsf{\color{lightgreen}5.00 ms}$ | 58.00 ms | 477.00 ms | 540.00 ms |
-| C# Concurrent (AOT) | 5.27 ms | 60.57 ms | 487.37 ms | 553.22 ms |
-| D Concurrent | 8.84 ms | 76.34 ms | 560.38 ms | 645.56 ms |
-| Rust Concurrent | 5.43 ms | 69.22 ms | 602.36 ms | 677.00 ms |
-| Go Concurrent | 5.53 ms | 76.80 ms | 640.02 ms | 722.35 ms |
-| Nim Concurrent | 6.17 ms | 90.26 ms | 657.74 ms | 754.17 ms |
-| F# Concurrent (AOT) | 8.40 ms | 114.00 ms | 1.00 s | 1.13 s |
-| F# Concurrent | 8.80 ms | 122.33 ms | 1.08 s | 1.21 s |
-| Swift Concurrent | 13.24 ms | 148.23 ms | 1.20 s | 1.37 s |
-| Julia Concurrent | 11.02 ms | 159.49 ms | 1.40 s | 1.57 s |
-| Java Concurrent (JIT) | 73.40 ms | 221.67 ms | 1.41 s | 1.70 s |
-| Numba Concurrent | 25.82 ms | 223.30 ms | 1.62 s | 1.87 s |
-| Zig Concurrent | 17.50 ms | 222.24 ms | 1.86 s | 2.10 s |
-| Java (GraalVM) Concurrent | 20.00 ms | 294.67 ms | 1.81 s | 2.12 s |
+| D Concurrent (v2) | 6.22 ms | 46.71 ms | $\textsf{\color{lightgreen}273.33 ms}$ | 326.26 ms |
+| D Concurrent | 6.65 ms | 50.79 ms | 345.70 ms | 403.15 ms |
+| C++ Concurrent | $\textsf{\color{lightgreen}4.00 ms}$ | $\textsf{\color{lightgreen}46.33 ms}$ | 379.67 ms | 430.00 ms |
+| C# Concurrent (JIT) | 5.70 ms | 54.21 ms | 403.47 ms | 463.38 ms |
+| C# Concurrent (AOT) | 4.35 ms | 53.92 ms | 442.09 ms | 500.36 ms |
+| Nim Concurrent | 4.60 ms | 59.70 ms | 505.32 ms | 569.63 ms |
+| Zig Concurrent | 6.19 ms | 68.64 ms | 550.06 ms | 624.89 ms |
+| F# Concurrent | 5.50 ms | 75.00 ms | 604.33 ms | 684.83 ms |
+| Rust Concurrent | 5.54 ms | 73.28 ms | 637.51 ms | 716.33 ms |
+| Julia Concurrent | 6.82 ms | 79.38 ms | 679.22 ms | 765.42 ms |
+| Go Concurrent | 7.02 ms | 90.35 ms | 785.71 ms | 883.09 ms |
+| F# Concurrent (AOT) | 8.00 ms | 121.00 ms | 1.08 s | 1.21 s |
+| Swift Concurrent | 12.08 ms | 131.59 ms | 1.09 s | 1.24 s |
+| Java Concurrent (JIT) | 63.00 ms | 191.33 ms | 1.16 s | 1.41 s |
+| Numba Concurrent | 20.75 ms | 181.30 ms | 1.36 s | 1.56 s |
+| Java (GraalVM) Concurrent | 12.00 ms | 209.33 ms | 1.51 s | 1.73 s |
 
 <details>
 <summary> Old Results with details (on my machine) </summary>
