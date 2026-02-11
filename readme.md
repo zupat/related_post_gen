@@ -62,7 +62,7 @@ docker run -e TEST_NAME=go -it --rm go_databench
 
 ### Updated Results from github workflow ([raw data](https://github.com/jinyus/related_post_gen/blob/main/results))
 
-##### VM Specs ( AWS c7a.xlarge-4vCPU-8GB-RAM-Ubuntu 22.04 )
+##### VM Specs ( AWS c7a.xlarge-4vCPU-8GB-RAM-Ubuntu 24.04 )
 
 | Language         | Time (5k posts)                       | 20k posts                              | 60k posts                           | Total     |
 | ---------------- | ------------------------------------- | -------------------------------------- | ----------------------------------- | --------- |
