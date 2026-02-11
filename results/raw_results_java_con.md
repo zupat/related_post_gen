@@ -1,41 +1,41 @@
 
 Java Concurrent (JIT):
 
-	Processing time (w/o IO): 80 ms
-	total: 0.28s memory: 65864k
-	Processing time (w/o IO): 76 ms
-	total: 0.25s memory: 65272k
-	Processing time (w/o IO): 95 ms
-	total: 0.27s memory: 66352k
 	Processing time (w/o IO): 65 ms
-	total: 0.24s memory: 65432k
-	Processing time (w/o IO): 74 ms
-	total: 0.25s memory: 66264k
+	total: 0.20s memory: 68896k
 	Processing time (w/o IO): 64 ms
-	total: 0.24s memory: 65720k
-	Processing time (w/o IO): 67 ms
-	total: 0.25s memory: 65292k
-	Processing time (w/o IO): 70 ms
-	total: 0.24s memory: 66152k
-	Processing time (w/o IO): 74 ms
-	total: 0.25s memory: 66772k
-	Processing time (w/o IO): 69 ms
-	total: 0.24s memory: 65568k
+	total: 0.20s memory: 67288k
+	Processing time (w/o IO): 61 ms
+	total: 0.19s memory: 67328k
+	Processing time (w/o IO): 62 ms
+	total: 0.20s memory: 67116k
+	Processing time (w/o IO): 62 ms
+	total: 0.20s memory: 67788k
+	Processing time (w/o IO): 63 ms
+	total: 0.20s memory: 66660k
+	Processing time (w/o IO): 62 ms
+	total: 0.19s memory: 66244k
+	Processing time (w/o IO): 64 ms
+	total: 0.20s memory: 69160k
+	Processing time (w/o IO): 62 ms
+	total: 0.20s memory: 68564k
+	Processing time (w/o IO): 65 ms
+	total: 0.20s memory: 66804k
 
 Java Concurrent (JIT):
 
-	Processing time (w/o IO): 221 ms
-	total: 0.47s memory: 88908k
-	Processing time (w/o IO): 224 ms
-	total: 0.48s memory: 89976k
-	Processing time (w/o IO): 220 ms
-	total: 0.47s memory: 87756k
+	Processing time (w/o IO): 191 ms
+	total: 0.40s memory: 87496k
+	Processing time (w/o IO): 190 ms
+	total: 0.40s memory: 83580k
+	Processing time (w/o IO): 193 ms
+	total: 0.40s memory: 83632k
 
 Java Concurrent (JIT):
 
-	Processing time (w/o IO): 1408 ms
-	total: 1.95s memory: 124740k
-	Processing time (w/o IO): 1405 ms
-	total: 1.94s memory: 124400k
-	Processing time (w/o IO): 1406 ms
-	total: 1.96s memory: 126332k
+	Processing time (w/o IO): 1154 ms
+	total: 1.61s memory: 118740k
+	Processing time (w/o IO): 1159 ms
+	total: 1.63s memory: 119596k
+	Processing time (w/o IO): 1154 ms
+	total: 2.01s memory: 118472k

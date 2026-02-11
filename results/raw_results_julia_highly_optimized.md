@@ -1,41 +1,41 @@
 
 Julia HO:
 
-	Processing time (w/o IO): 7 milliseconds
-	total: 0.45s memory: 319488k
-	Processing time (w/o IO): 7 milliseconds
-	total: 0.45s memory: 319952k
-	Processing time (w/o IO): 7 milliseconds
-	total: 0.45s memory: 319872k
-	Processing time (w/o IO): 7 milliseconds
-	total: 0.46s memory: 319696k
-	Processing time (w/o IO): 7 milliseconds
-	total: 0.44s memory: 319616k
 	Processing time (w/o IO): 6 milliseconds
-	total: 0.45s memory: 319744k
-	Processing time (w/o IO): 7 milliseconds
-	total: 0.45s memory: 319744k
+	total: 0.47s memory: 331108k
+	Processing time (w/o IO): 5 milliseconds
+	total: 0.47s memory: 331820k
 	Processing time (w/o IO): 6 milliseconds
-	total: 0.44s memory: 319360k
-	Processing time (w/o IO): 7 milliseconds
-	total: 0.45s memory: 319104k
-	Processing time (w/o IO): 7 milliseconds
-	total: 0.45s memory: 319744k
+	total: 0.47s memory: 329912k
+	Processing time (w/o IO): 6 milliseconds
+	total: 0.47s memory: 329864k
+	Processing time (w/o IO): 6 milliseconds
+	total: 0.47s memory: 329872k
+	Processing time (w/o IO): 6 milliseconds
+	total: 0.47s memory: 330964k
+	Processing time (w/o IO): 6 milliseconds
+	total: 0.47s memory: 331620k
+	Processing time (w/o IO): 6 milliseconds
+	total: 0.47s memory: 330296k
+	Processing time (w/o IO): 6 milliseconds
+	total: 0.47s memory: 330324k
+	Processing time (w/o IO): 6 milliseconds
+	total: 0.47s memory: 331612k
 
 Julia HO:
 
-	Processing time (w/o IO): 23 milliseconds
-	total: 0.66s memory: 345608k
-	Processing time (w/o IO): 23 milliseconds
-	total: 0.65s memory: 345068k
-	Processing time (w/o IO): 23 milliseconds
-	total: 0.65s memory: 345388k
+	Processing time (w/o IO): 110 milliseconds
+	total: 0.70s memory: 358200k
+	Processing time (w/o IO): 108 milliseconds
+	total: 0.70s memory: 359820k
+	Processing time (w/o IO): 108 milliseconds
+	total: 0.70s memory: 357856k
 
 Julia HO:
 
-	Processing time (w/o IO): 99 milliseconds
-	total: 1.09s memory: 412632k
-	Processing time (w/o IO): 99 milliseconds
-	total: 1.10s memory: 413088k
-	Processing time (w/o IO): 100 milliseconds
-	total: 1.11s memory: 412992k
+	Processing time (w/o IO): 80 milliseconds
+	total: 1.04s memory: 437472k
+	Processing time (w/o IO): 80 milliseconds
+	total: 1.06s memory: 439004k
+	Processing time (w/o IO): 82 milliseconds
+	total: 1.08s memory: 437264k

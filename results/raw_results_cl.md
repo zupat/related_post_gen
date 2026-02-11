@@ -1,36 +1,37 @@
-Common Lisp (SBCL):
-
-        Processing time (w/o IO): 0.16 s
-        total: 0.27s memory: 119936k
-        Processing time (w/o IO): 0.15 s
-        total: 0.27s memory: 119936k
-        Processing time (w/o IO): 0.16 s
-        total: 0.27s memory: 119936k
-        Processing time (w/o IO): 0.15 s
-        total: 0.26s memory: 120064k
-        Processing time (w/o IO): 0.16 s
-        total: 0.27s memory: 119936k
-        Processing time (w/o IO): 0.15 s
-        total: 0.26s memory: 119808k
-        Processing time (w/o IO): 0.15 s
-        total: 0.26s memory: 119808k
-        Processing time (w/o IO): 0.15 s
-        total: 0.27s memory: 119680k
-        Processing time (w/o IO): 0.16 s
-        total: 0.27s memory: 119808k
-        Processing time (w/o IO): 0.15 s
-        total: 0.27s memory: 119808k
 
 Common Lisp (SBCL):
 
-        Processing time (w/o IO): 1.34 s
-        total: 1.79s memory: 147688k
-        Processing time (w/o IO): 1.35 s
-        total: 1.81s memory: 147820k
+	Processing time (w/o IO): 0.13 s
+	total: 0.22s memory: 120368k
+	Processing time (w/o IO): 0.13 s
+	total: 0.23s memory: 120516k
+	Processing time (w/o IO): 0.13 s
+	total: 0.22s memory: 120504k
+	Processing time (w/o IO): 0.13 s
+	total: 0.22s memory: 120436k
+	Processing time (w/o IO): 0.13 s
+	total: 0.22s memory: 120508k
+	Processing time (w/o IO): 0.13 s
+	total: 0.22s memory: 120396k
+	Processing time (w/o IO): 0.13 s
+	total: 0.22s memory: 120516k
+	Processing time (w/o IO): 0.13 s
+	total: 0.22s memory: 120504k
+	Processing time (w/o IO): 0.13 s
+	total: 0.22s memory: 120508k
+	Processing time (w/o IO): 0.13 s
+	total: 0.22s memory: 120504k
 
 Common Lisp (SBCL):
 
-        Processing time (w/o IO): 11.15 s
-        total: 12.66s memory: 340964k
-        Processing time (w/o IO): 11.24 s
-        total: 12.73s memory: 341080k
+	Processing time (w/o IO): 0.99 s
+	total: 1.36s memory: 145592k
+	Processing time (w/o IO): 0.98 s
+	total: 1.36s memory: 145384k
+
+Common Lisp (SBCL):
+
+	Processing time (w/o IO): 8.14 s
+	total: 9.37s memory: 340976k
+	Processing time (w/o IO): 8.16 s
+	total: 9.40s memory: 340840k

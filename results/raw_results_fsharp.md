@@ -1,40 +1,40 @@
 F# (JIT):
 
-        Processing time (w/o IO): 24.2279ms
-        total: 0.65s memory: 120560k
-        Processing time (w/o IO): 23.6784ms
-        total: 0.65s memory: 120592k
-        Processing time (w/o IO): 24.0301ms
-        total: 0.65s memory: 120780k
-        Processing time (w/o IO): 24.1852ms
-        total: 0.65s memory: 120988k
-        Processing time (w/o IO): 24.6371ms
-        total: 0.66s memory: 120924k
-        Processing time (w/o IO): 24.0639ms
-        total: 0.65s memory: 121064k
-        Processing time (w/o IO): 24.3847ms
-        total: 0.66s memory: 120812k
-        Processing time (w/o IO): 25.7323ms
-        total: 0.66s memory: 120800k
-        Processing time (w/o IO): 24.7516ms
-        total: 0.66s memory: 120940k
-        Processing time (w/o IO): 30.5249ms
-        total: 0.66s memory: 120736k
+        Processing time (w/o IO): 26.8667ms
+        total: 0.57s memory: 121596k
+        Processing time (w/o IO): 28.2596ms
+        total: 0.57s memory: 121560k
+        Processing time (w/o IO): 26.9966ms
+        total: 0.57s memory: 121040k
+        Processing time (w/o IO): 26.8731ms
+        total: 0.56s memory: 121416k
+        Processing time (w/o IO): 26.8268ms
+        total: 0.56s memory: 121316k
+        Processing time (w/o IO): 27.0173ms
+        total: 0.57s memory: 121404k
+        Processing time (w/o IO): 27.2976ms
+        total: 0.58s memory: 121448k
+        Processing time (w/o IO): 31.5423ms
+        total: 0.54s memory: 108668k
+        Processing time (w/o IO): 26.9021ms
+        total: 0.57s memory: 121076k
+        Processing time (w/o IO): 27.1195ms
+        total: 0.57s memory: 121388k
 
 F# (JIT):
 
-        Processing time (w/o IO): 357.6122ms
-        total: 2.43s memory: 252384k
-        Processing time (w/o IO): 354.6961ms
-        total: 2.44s memory: 253700k
-        Processing time (w/o IO): 350.8202ms
-        total: 2.42s memory: 252404k
+        Processing time (w/o IO): 369.3693ms
+        total: 2.21s memory: 252448k
+        Processing time (w/o IO): 367.3544ms
+        total: 2.18s memory: 273840k
+        Processing time (w/o IO): 395.9999ms
+        total: 2.23s memory: 258772k
 
 F# (JIT):
 
-        Processing time (w/o IO): 3031.0991ms
-        total: 10.65s memory: 757608k
-        Processing time (w/o IO): 3019.2891ms
-        total: 10.68s memory: 754844k
-        Processing time (w/o IO): 3013.3879ms
-        total: 10.63s memory: 727060k
+        Processing time (w/o IO): 3512.2193ms
+        total: 10.67s memory: 655908k
+        Processing time (w/o IO): 3502.7625ms
+        total: 10.89s memory: 670480k
+        Processing time (w/o IO): 3379.1614ms
+        total: 10.54s memory: 638776k

@@ -1,15 +1,15 @@
 
 C# Concurrent (AOT):
 
-	Processing time (w/o IO): 5.2693ms
-	total: 0.05s memory: 34960k
+	Processing time (w/o IO): 4.354ms
+	total: 0.04s memory: 32612k
 
 C# Concurrent (AOT):
 
-	Processing time (w/o IO): 60.5724ms
-	total: 0.25s memory: 99844k
+	Processing time (w/o IO): 53.9173ms
+	total: 0.23s memory: 95392k
 
 C# Concurrent (AOT):
 
-	Processing time (w/o IO): 487.3748ms
-	total: 1.37s memory: 264900k
+	Processing time (w/o IO): 442.0877ms
+	total: 1.28s memory: 259492k

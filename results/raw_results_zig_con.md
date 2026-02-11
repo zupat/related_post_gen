@@ -1,41 +1,41 @@
 
 Zig Concurrent:
 
-	Processing time (w/o IO): 17.647ms
-	total: 1.93s memory: 4736k
-	Processing time (w/o IO): 17.743ms
-	total: 1.94s memory: 4736k
-	Processing time (w/o IO): 17.083ms
-	total: 1.93s memory: 4736k
-	Processing time (w/o IO): 17.919ms
-	total: 1.92s memory: 4736k
-	Processing time (w/o IO): 17.940ms
-	total: 1.92s memory: 4736k
-	Processing time (w/o IO): 17.330ms
-	total: 1.93s memory: 4736k
-	Processing time (w/o IO): 17.300ms
-	total: 1.92s memory: 4736k
-	Processing time (w/o IO): 17.302ms
-	total: 1.93s memory: 4736k
-	Processing time (w/o IO): 17.253ms
-	total: 1.92s memory: 4736k
-	Processing time (w/o IO): 17.519ms
-	total: 1.92s memory: 4736k
+	Processing time (w/o IO): 6.262ms
+	total: 0.02s memory: 4792k
+	Processing time (w/o IO): 6.184ms
+	total: 0.02s memory: 4792k
+	Processing time (w/o IO): 6.147ms
+	total: 0.02s memory: 4792k
+	Processing time (w/o IO): 6.128ms
+	total: 0.02s memory: 4792k
+	Processing time (w/o IO): 6.064ms
+	total: 0.02s memory: 4792k
+	Processing time (w/o IO): 6.257ms
+	total: 0.02s memory: 4792k
+	Processing time (w/o IO): 6.150ms
+	total: 0.02s memory: 4792k
+	Processing time (w/o IO): 6.142ms
+	total: 0.02s memory: 4792k
+	Processing time (w/o IO): 6.328ms
+	total: 0.02s memory: 4792k
+	Processing time (w/o IO): 6.221ms
+	total: 0.02s memory: 4792k
 
 Zig Concurrent:
 
-	Processing time (w/o IO): 223.325ms
-	total: 7.91s memory: 16512k
-	Processing time (w/o IO): 225.482ms
-	total: 7.94s memory: 16512k
-	Processing time (w/o IO): 217.911ms
-	total: 7.96s memory: 16512k
+	Processing time (w/o IO): 69.197ms
+	total: 0.14s memory: 16696k
+	Processing time (w/o IO): 67.803ms
+	total: 0.15s memory: 16696k
+	Processing time (w/o IO): 68.930ms
+	total: 0.15s memory: 16696k
 
 Zig Concurrent:
 
-	Processing time (w/o IO): 1881.932ms
-	total: 25.19s memory: 47872k
-	Processing time (w/o IO): 1857.133ms
-	total: 25.02s memory: 47872k
-	Processing time (w/o IO): 1850.321ms
-	total: 25.18s memory: 47872k
+	Processing time (w/o IO): 547.637ms
+	total: 0.81s memory: 42552k
+	Processing time (w/o IO): 550.028ms
+	total: 0.84s memory: 42552k
+	Processing time (w/o IO): 552.510ms
+	total: 0.84s memory: 42552k

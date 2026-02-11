@@ -1,41 +1,41 @@
 
 JS (Deno):
 
-	Processing time (w/o IO): 151ms
-	total: 0.62s memory: 87968k
-	Processing time (w/o IO): 89ms
-	total: 0.15s memory: 86612k
-	Processing time (w/o IO): 89ms
-	total: 0.15s memory: 86748k
-	Processing time (w/o IO): 89ms
-	total: 0.15s memory: 85724k
-	Processing time (w/o IO): 103ms
-	total: 0.17s memory: 86328k
-	Processing time (w/o IO): 89ms
-	total: 0.16s memory: 86848k
-	Processing time (w/o IO): 88ms
-	total: 0.15s memory: 85332k
-	Processing time (w/o IO): 88ms
-	total: 0.15s memory: 85532k
-	Processing time (w/o IO): 89ms
-	total: 0.16s memory: 86076k
-	Processing time (w/o IO): 89ms
-	total: 0.16s memory: 86596k
+	Processing time (w/o IO): 83ms
+	total: 0.18s memory: 95088k
+	Processing time (w/o IO): 84ms
+	total: 0.16s memory: 94136k
+	Processing time (w/o IO): 84ms
+	total: 0.16s memory: 93356k
+	Processing time (w/o IO): 84ms
+	total: 0.16s memory: 93240k
+	Processing time (w/o IO): 87ms
+	total: 0.17s memory: 92728k
+	Processing time (w/o IO): 84ms
+	total: 0.16s memory: 93484k
+	Processing time (w/o IO): 84ms
+	total: 0.17s memory: 93924k
+	Processing time (w/o IO): 84ms
+	total: 0.16s memory: 92764k
+	Processing time (w/o IO): 85ms
+	total: 0.16s memory: 93632k
+	Processing time (w/o IO): 90ms
+	total: 0.17s memory: 92796k
 
 JS (Deno):
 
-	Processing time (w/o IO): 1153ms
-	total: 1.34s memory: 138484k
-	Processing time (w/o IO): 1202ms
-	total: 1.40s memory: 138432k
-	Processing time (w/o IO): 1164ms
-	total: 1.36s memory: 138264k
+	Processing time (w/o IO): 1061ms
+	total: 1.24s memory: 151232k
+	Processing time (w/o IO): 1196ms
+	total: 1.36s memory: 145932k
+	Processing time (w/o IO): 1196ms
+	total: 1.37s memory: 151096k
 
 JS (Deno):
 
-	Processing time (w/o IO): 9860ms
-	total: 10.40s memory: 267640k
-	Processing time (w/o IO): 11882ms
-	total: 12.46s memory: 268592k
-	Processing time (w/o IO): 10082ms
-	total: 10.62s memory: 269124k
+	Processing time (w/o IO): 10500ms
+	total: 10.93s memory: 278692k
+	Processing time (w/o IO): 10500ms
+	total: 10.93s memory: 278612k
+	Processing time (w/o IO): 10506ms
+	total: 10.96s memory: 278876k

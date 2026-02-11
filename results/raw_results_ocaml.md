@@ -1,41 +1,41 @@
 
 Ocaml:
 
-	Processing time (w/o IO): 101ms
-	total: 0.17s memory: 32256k
-	Processing time (w/o IO): 100ms
-	total: 0.18s memory: 32128k
-	Processing time (w/o IO): 101ms
-	total: 0.18s memory: 32256k
-	Processing time (w/o IO): 91ms
-	total: 0.17s memory: 32128k
-	Processing time (w/o IO): 100ms
-	total: 0.18s memory: 32256k
-	Processing time (w/o IO): 101ms
-	total: 0.17s memory: 32256k
-	Processing time (w/o IO): 101ms
-	total: 0.18s memory: 32256k
-	Processing time (w/o IO): 97ms
-	total: 0.17s memory: 32128k
-	Processing time (w/o IO): 101ms
-	total: 0.18s memory: 32128k
-	Processing time (w/o IO): 101ms
-	total: 0.18s memory: 32256k
+	Processing time (w/o IO): 84ms
+	total: 0.15s memory: 32600k
+	Processing time (w/o IO): 85ms
+	total: 0.15s memory: 32996k
+	Processing time (w/o IO): 85ms
+	total: 0.15s memory: 32652k
+	Processing time (w/o IO): 85ms
+	total: 0.15s memory: 32724k
+	Processing time (w/o IO): 84ms
+	total: 0.15s memory: 32936k
+	Processing time (w/o IO): 84ms
+	total: 0.15s memory: 32932k
+	Processing time (w/o IO): 85ms
+	total: 0.15s memory: 32652k
+	Processing time (w/o IO): 85ms
+	total: 0.15s memory: 32772k
+	Processing time (w/o IO): 85ms
+	total: 0.15s memory: 32656k
+	Processing time (w/o IO): 84ms
+	total: 0.15s memory: 32732k
 
 Ocaml:
 
-	Processing time (w/o IO): 1442ms
-	total: 1.78s memory: 103064k
-	Processing time (w/o IO): 1463ms
-	total: 1.82s memory: 103192k
-	Processing time (w/o IO): 1478ms
-	total: 1.83s memory: 103064k
+	Processing time (w/o IO): 1297ms
+	total: 1.61s memory: 103656k
+	Processing time (w/o IO): 1294ms
+	total: 1.61s memory: 103492k
+	Processing time (w/o IO): 1302ms
+	total: 1.61s memory: 103472k
 
 Ocaml:
 
-	Processing time (w/o IO): 13198ms
-	total: 14.34s memory: 309036k
-	Processing time (w/o IO): 12973ms
-	total: 14.13s memory: 308904k
-	Processing time (w/o IO): 12967ms
-	total: 14.12s memory: 308896k
+	Processing time (w/o IO): 11555ms
+	total: 12.56s memory: 309432k
+	Processing time (w/o IO): 11612ms
+	total: 12.65s memory: 309384k
+	Processing time (w/o IO): 11559ms
+	total: 12.56s memory: 309308k

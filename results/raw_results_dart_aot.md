@@ -1,41 +1,41 @@
 
 Dart AOT:
 
-	Processing time (w/o IO): 70ms
-	total: 0.15s memory: 40192k
-	Processing time (w/o IO): 70ms
-	total: 0.16s memory: 40064k
-	Processing time (w/o IO): 70ms
-	total: 0.15s memory: 40192k
-	Processing time (w/o IO): 70ms
-	total: 0.15s memory: 40320k
-	Processing time (w/o IO): 68ms
-	total: 0.15s memory: 40320k
-	Processing time (w/o IO): 70ms
-	total: 0.15s memory: 40448k
-	Processing time (w/o IO): 70ms
-	total: 0.15s memory: 40192k
-	Processing time (w/o IO): 70ms
-	total: 0.15s memory: 40192k
-	Processing time (w/o IO): 70ms
-	total: 0.15s memory: 40320k
-	Processing time (w/o IO): 70ms
-	total: 0.15s memory: 40320k
+	Processing time (w/o IO): 60ms
+	total: 0.13s memory: 40144k
+	Processing time (w/o IO): 59ms
+	total: 0.13s memory: 39820k
+	Processing time (w/o IO): 60ms
+	total: 0.13s memory: 40184k
+	Processing time (w/o IO): 59ms
+	total: 0.13s memory: 40248k
+	Processing time (w/o IO): 59ms
+	total: 0.13s memory: 39996k
+	Processing time (w/o IO): 59ms
+	total: 0.13s memory: 40012k
+	Processing time (w/o IO): 59ms
+	total: 0.13s memory: 40164k
+	Processing time (w/o IO): 59ms
+	total: 0.13s memory: 40060k
+	Processing time (w/o IO): 59ms
+	total: 0.13s memory: 40164k
+	Processing time (w/o IO): 60ms
+	total: 0.13s memory: 40016k
 
 Dart AOT:
 
-	Processing time (w/o IO): 1070ms
-	total: 1.41s memory: 110784k
-	Processing time (w/o IO): 1073ms
-	total: 1.42s memory: 110900k
-	Processing time (w/o IO): 1073ms
-	total: 1.41s memory: 110896k
+	Processing time (w/o IO): 900ms
+	total: 1.20s memory: 110668k
+	Processing time (w/o IO): 901ms
+	total: 1.21s memory: 110652k
+	Processing time (w/o IO): 901ms
+	total: 1.20s memory: 110776k
 
 Dart AOT:
 
-	Processing time (w/o IO): 9429ms
-	total: 10.50s memory: 184220k
-	Processing time (w/o IO): 9444ms
-	total: 10.51s memory: 189916k
-	Processing time (w/o IO): 9423ms
-	total: 10.49s memory: 191144k
+	Processing time (w/o IO): 7924ms
+	total: 8.87s memory: 190492k
+	Processing time (w/o IO): 7930ms
+	total: 8.97s memory: 190012k
+	Processing time (w/o IO): 7930ms
+	total: 8.99s memory: 191016k

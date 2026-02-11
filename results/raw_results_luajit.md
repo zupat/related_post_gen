@@ -1,41 +1,41 @@
 
 LuaJIT:
 
-	Processing time (w/o IO):	73.715925216675	ms
-	total: 0.24s memory: 28092k
-	Processing time (w/o IO):	71.838855743408	ms
-	total: 0.24s memory: 28088k
-	Processing time (w/o IO):	73.991060256958	ms
-	total: 0.24s memory: 28220k
-	Processing time (w/o IO):	72.127103805542	ms
-	total: 0.24s memory: 28220k
-	Processing time (w/o IO):	73.776006698608	ms
-	total: 0.24s memory: 27964k
-	Processing time (w/o IO):	73.74095916748	ms
-	total: 0.24s memory: 28088k
-	Processing time (w/o IO):	73.750019073486	ms
-	total: 0.24s memory: 28088k
-	Processing time (w/o IO):	74.360132217407	ms
-	total: 0.24s memory: 28088k
-	Processing time (w/o IO):	74.004888534546	ms
-	total: 0.25s memory: 28092k
-	Processing time (w/o IO):	73.888063430786	ms
-	total: 0.24s memory: 28088k
+	Processing time (w/o IO):	64.358949661255	ms
+	total: 0.21s memory: 28176k
+	Processing time (w/o IO):	62.5901222229	ms
+	total: 0.22s memory: 28140k
+	Processing time (w/o IO):	63.910007476807	ms
+	total: 0.22s memory: 28184k
+	Processing time (w/o IO):	61.840057373047	ms
+	total: 0.22s memory: 28180k
+	Processing time (w/o IO):	61.912059783936	ms
+	total: 0.22s memory: 28120k
+	Processing time (w/o IO):	62.090158462524	ms
+	total: 0.21s memory: 28212k
+	Processing time (w/o IO):	64.07618522644	ms
+	total: 0.21s memory: 28204k
+	Processing time (w/o IO):	63.40503692627	ms
+	total: 0.21s memory: 28204k
+	Processing time (w/o IO):	63.800096511841	ms
+	total: 0.21s memory: 28180k
+	Processing time (w/o IO):	63.947916030884	ms
+	total: 0.21s memory: 28144k
 
 LuaJIT:
 
-	Processing time (w/o IO):	939.18085098267	ms
-	total: 1.82s memory: 104100k
-	Processing time (w/o IO):	944.90814208984	ms
-	total: 1.83s memory: 104104k
-	Processing time (w/o IO):	906.98790550232	ms
-	total: 1.79s memory: 104104k
+	Processing time (w/o IO):	804.90708351135	ms
+	total: 1.59s memory: 104096k
+	Processing time (w/o IO):	809.6981048584	ms
+	total: 1.60s memory: 104204k
+	Processing time (w/o IO):	790.61794281006	ms
+	total: 1.59s memory: 104124k
 
 LuaJIT:
 
-	Processing time (w/o IO):	7717.7169322968	ms
-	total: 10.81s memory: 302440k
-	Processing time (w/o IO):	7887.9189491272	ms
-	total: 10.93s memory: 302696k
-	Processing time (w/o IO):	7903.7339687347	ms
-	total: 11.00s memory: 302556k
+	Processing time (w/o IO):	6555.6011199951	ms
+	total: 9.41s memory: 302688k
+	Processing time (w/o IO):	6596.0619449615	ms
+	total: 9.46s memory: 302864k
+	Processing time (w/o IO):	6525.3629684448	ms
+	total: 9.43s memory: 302688k
