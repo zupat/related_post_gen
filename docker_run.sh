@@ -65,6 +65,8 @@ declare -A NameToImage=(
     ["scala_native"]="java"
     ["inko"]="inko"
     ["neat"]="neat"
+    ["ada"]="ada"
+
 )
 
 TEST_NAME="$1"

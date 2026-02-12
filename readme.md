@@ -88,6 +88,7 @@ docker run -e TEST_NAME=go -it --rm go_databench
 | Swift | 28.94 ms | 384.12 ms | 3.32 s | 3.74 s |
 | F# (JIT) | 27.57 ms | 377.57 ms | 3.46 s | 3.87 s |
 | Java (GraalVM) | 34.30 ms | 422.33 ms | 3.64 s | 4.10 s |
+| Ada | 41.62 ms | 579.09 ms | 5.02 s | 5.64 s |
 | Crystal | 38.90 ms | 577.98 ms | 5.12 s | 5.74 s |
 | JS (Bun) | 60.80 ms | 743.67 ms | 6.30 s | 7.10 s |
 | LuaJIT | 63.19 ms | 801.74 ms | 6.56 s | 7.42 s |
