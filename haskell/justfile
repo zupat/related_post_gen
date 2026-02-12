@@ -1,0 +1,5 @@
+bench-init:
+  cabal bench --benchmark-options='--csv baseline.csv'
+
+bench:
+  cabal bench --benchmark-options='--baseline baseline.csv'

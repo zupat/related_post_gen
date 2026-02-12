@@ -1,6 +1,3 @@
-{-# LANGUAGE BlockArguments #-}
-{-# LANGUAGE DeriveAnyClass #-}
-{-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE Strict #-}
 
 module RelatedPostGen (module RelatedPostGen) where
@@ -26,7 +23,6 @@ import GHC.Generics (Generic)
 
 type HashTable s k v = H.Dictionary (H.PrimState (ST s)) VM.MVector k VM.MVector v
 
--- | A tag map which maps tags (as 'ShortText') to a (storable) mutable vector of post indices ('Word32').
 type TagMap s = HashTable s ShortText (STVector s Word32)
 
 data Post = MkPost
@@ -45,7 +41,6 @@ data RelatedPosts = MkRelatedPosts
   deriving stock (Generic, Show)
   deriving anyclass (FromJSON, ToJSON, NFData)
 
--- | The maximum number of related posts to include.
 limitTopN :: Int
 limitTopN = 5
 
