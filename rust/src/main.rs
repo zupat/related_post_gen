@@ -33,7 +33,8 @@ struct RelatedPosts<'a> {
 
 fn main() -> io::Result<()> {
     let json_str = std::fs::read_to_string(INPUT_FILE)?;
-    let posts: VecDeque<Post> = serde_json::from_str(&json_str).unwrap();
+    let mut posts_deque: VecDeque<Post> = serde_json::from_str(&json_str).unwrap();
+    let posts = posts_deque.make_contiguous();
 
     let start = Instant::now();
 
