@@ -1,6 +1,7 @@
 use hashbrown::HashMap;
 use serde::{Deserialize, Serialize};
 use std::{
+    collections::VecDeque,
     fs::OpenOptions,
     hint,
     io::{self, BufWriter},
@@ -45,11 +46,11 @@ impl TopNTracker {
 
 fn main() -> io::Result<()> {
     let json_str = std::fs::read_to_string(INPUT_FILE)?;
-    let posts: Vec<Post> = serde_json::from_str(&json_str).unwrap();
+    let mut posts: VecDeque<Post> = serde_json::from_str(&json_str).unwrap();
 
     let start = Instant::now();
 
-    let related_posts = gen_related_posts(&posts);
+    let related_posts = gen_related_posts(posts.make_contiguous());
 
     let end = hint::black_box(Instant::now());
     println!("Processing time (w/o IO): {:?}", end.duration_since(start));

@@ -2,6 +2,7 @@ use aligned_vec::avec;
 use hashbrown::HashMap;
 use serde::{Deserialize, Serialize};
 use std::{
+    collections::VecDeque,
     fs::OpenOptions,
     hint,
     io::{self, BufWriter},
@@ -32,7 +33,7 @@ struct RelatedPosts<'a> {
 
 fn main() -> io::Result<()> {
     let json_str = std::fs::read_to_string(INPUT_FILE)?;
-    let posts: Vec<Post> = serde_json::from_str(&json_str).unwrap();
+    let posts: VecDeque<Post> = serde_json::from_str(&json_str).unwrap();
 
     let start = Instant::now();
 

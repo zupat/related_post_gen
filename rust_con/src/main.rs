@@ -1,5 +1,6 @@
 use std::{
     cell::RefCell,
+    collections::VecDeque,
     fs::OpenOptions,
     hint,
     io::{self, BufWriter},
@@ -28,10 +29,10 @@ fn main() -> io::Result<()> {
         .unwrap();
 
     let json_str = std::fs::read_to_string(INPUT_FILE)?;
-    let posts: Vec<Post> = serde_json::from_str(&json_str).unwrap();
+    let mut posts: VecDeque<Post> = serde_json::from_str(&json_str).unwrap();
 
     let start = hint::black_box(Instant::now());
-    let related_posts = get_related(&posts);
+    let related_posts = get_related(posts.make_contiguous());
     let end = hint::black_box(Instant::now());
 
     println!("Processing time (w/o IO): {:?}", end.duration_since(start));
