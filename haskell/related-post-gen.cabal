@@ -6,7 +6,12 @@ maintainer:    thelissimus@tuta.io
 build-type:    Simple
 
 common options
-  default-language: GHC2024
+  default-language:   GHC2024
+  default-extensions:
+    BlockArguments
+    DeriveAnyClass
+    DuplicateRecordFields
+
   ghc-options:
     -Wall -Wextra -fspecialise-aggressively -fllvm -optlo-O3 -O2
     -funbox-strict-fields -fspec-constr
