@@ -638,6 +638,9 @@ if [ ! -d "$REMOTE_REPO/.git" ]; then
     git clone --branch $branch_q $repo_q "$REMOTE_REPO"
 fi
 cd "$REMOTE_REPO"
+# The clone may predate a branch used by a later campaign (e.g. add-nax after
+# an add-fortran run), so refresh refs before checking it out.
+git fetch --prune --quiet origin
 git checkout $branch_q
 if ! git pull --ff-only --quiet; then
     # untracked leftovers in the clone (eg. a script that has since been added to
