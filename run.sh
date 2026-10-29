@@ -422,6 +422,26 @@ run_js() {
         check_output "related_posts_$1.json"
 }
 
+run_perry() {
+    echo "Running TypeScript (Perry)" &&
+        cd ./ts &&
+        if [ -z "$appendToFile" ]; then # only build on 5k run
+            perry compile ./perry.ts -o ./related_perry
+        fi &&
+        run_command "TypeScript (Perry)" $runs ./related_perry &&
+        check_output "related_posts_perry.json"
+}
+
+run_scriptc() {
+    echo "Running TypeScript (scriptc)" &&
+        cd ./ts &&
+        if [ -z "$appendToFile" ]; then # only build on 5k run
+            scriptc build ./scriptc.ts -o ./related_scriptc
+        fi &&
+        run_command "TypeScript (scriptc)" $runs ./related_scriptc &&
+        check_output "related_posts_scriptc.json"
+}
+
 run_java() {
     VM_OPTIONS="-XX:+UseSerialGC"
     echo "Running Java (JIT)" &&
@@ -964,6 +984,14 @@ elif [ "$first_arg" = "deno" ]; then
 
     run_js "deno"
 
+elif [ "$first_arg" = "perry" ]; then
+
+    run_perry
+
+elif [ "$first_arg" = "scriptc" ]; then
+
+    run_scriptc
+
 elif [ "$first_arg" = "java" ]; then
 
     run_java
@@ -1158,6 +1186,8 @@ elif [ "$first_arg" = "all" ]; then
         run_js "node" || echo -e "\n" &&
         run_js "bun" || echo -e "\n" &&
         run_js "deno" || echo -e "\n" &&
+        run_perry || echo -e "\n" &&
+        run_scriptc || echo -e "\n" &&
         run_java || echo -e "\n" &&
         run_java_con || echo -e "\n" &&
         run_java_graal || echo -e "\n" &&
@@ -1229,12 +1259,14 @@ elif [ "$first_arg" = "clean" ]; then
         cd .. &&
         cd zig_con && rm -f main main.o &&
         cd .. &&
+        cd ts && rm -f related_perry related_scriptc &&
+        cd .. &&
         cd java && mvn -q -B clean &&
         cd .. &&
         rm -f related_*.json
 
 else
 
-    echo "Valid args: go | go_con | go_ho | rust | rust_con | d | d_con | r | py | numpy | erlang | cl | numba | numba_con | cr | zig_fast | zig_con | odin | c3 | jq | julia | julia_highly_optimized | julia_con | v | dart | swift | swift_con | node | bun | deno | java | java_graal | java_graal_con | nim | luajit | lua | fsharp | fsharp_aot | fsharp_con | csharp | csharp_aot | | php | dascript | all | clean. Unknown argument: $first_arg"
+    echo "Valid args: go | go_con | go_ho | rust | rust_con | d | d_con | r | py | numpy | erlang | cl | numba | numba_con | cr | zig_fast | zig_con | odin | c3 | jq | julia | julia_highly_optimized | julia_con | v | dart | swift | swift_con | node | bun | deno | perry | scriptc | java | java_graal | java_graal_con | nim | luajit | lua | fsharp | fsharp_aot | fsharp_con | csharp | csharp_aot | | php | dascript | all | clean. Unknown argument: $first_arg"
 
 fi
