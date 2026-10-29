@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from "node:fs";
-import { genRelatedPosts } from "./related";
-import type { Post } from "./related";
+import { genRelatedPosts } from "./related_perry";
+import type { Post } from "./related_perry";
 
 const posts = JSON.parse(readFileSync("../posts.json", "utf8")) as Post[];
 

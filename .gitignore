@@ -59,6 +59,7 @@ results/.campaign-ignore
 *_temp.Dockerfile
 
 # TypeScript AOT implementations
+ts/perry_bin
 ts/related_perry
 ts/related_scriptc
 ts/node_modules/

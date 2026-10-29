@@ -426,9 +426,9 @@ run_perry() {
     echo "Running TypeScript (Perry)" &&
         cd ./ts &&
         if [ -z "$appendToFile" ]; then # only build on 5k run
-            perry compile ./perry.ts -o ./related_perry
+            perry compile ./perry.ts -o ./perry_bin
         fi &&
-        run_command "TypeScript (Perry)" $runs ./related_perry &&
+        run_command "TypeScript (Perry)" $runs ./perry_bin &&
         check_output "related_posts_perry.json"
 }
 
@@ -1259,7 +1259,7 @@ elif [ "$first_arg" = "clean" ]; then
         cd .. &&
         cd zig_con && rm -f main main.o &&
         cd .. &&
-        cd ts && rm -f related_perry related_scriptc &&
+        cd ts && rm -f perry_bin related_perry related_scriptc &&
         cd .. &&
         cd java && mvn -q -B clean &&
         cd .. &&
