@@ -65,3 +65,6 @@ ts/related_scriptc
 ts/node_modules/
 ts/.scriptc/
 ts/package-lock.json
+
+# Fortran
+fortran/related
