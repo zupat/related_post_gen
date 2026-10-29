@@ -463,6 +463,16 @@ run_nax() {
         check_output "related_posts_nax.json"
 }
 
+run_haxe() {
+    echo "Running Haxe" &&
+        cd ./haxe &&
+        if [ -z "$appendToFile" ]; then # only build on 5k run
+            haxe build.hxml
+        fi &&
+        run_command "Haxe" $runs ./bin/Main &&
+        check_output "related_posts_haxe.json"
+}
+
 run_java() {
     VM_OPTIONS="-XX:+UseSerialGC"    echo "Running Java (JIT)" &&
         cd ./java &&
@@ -1020,6 +1030,10 @@ elif [ "$first_arg" = "nax" ]; then
 
     run_nax
 
+elif [ "$first_arg" = "haxe" ]; then
+
+    run_haxe
+
 elif [ "$first_arg" = "java" ]; then
 
     run_java
@@ -1218,6 +1232,7 @@ elif [ "$first_arg" = "all" ]; then
         run_scriptc || echo -e "\n" &&
         run_fortran || echo -e "\n" &&
         run_nax || echo -e "\n" &&
+        run_haxe || echo -e "\n" &&
         run_java || echo -e "\n" &&
         run_java_con || echo -e "\n" &&
         run_java_graal || echo -e "\n" &&
@@ -1295,12 +1310,14 @@ elif [ "$first_arg" = "clean" ]; then
         cd .. &&
         cd nax && rm -f related &&
         cd .. &&
+        cd haxe && rm -rf bin &&
+        cd .. &&
         cd java && mvn -q -B clean &&
         cd .. &&
         rm -f related_*.json
 
 else
 
-    echo "Valid args: go | go_con | go_ho | rust | rust_con | d | d_con | r | py | numpy | erlang | cl | numba | numba_con | cr | zig_fast | zig_con | odin | c3 | jq | julia | julia_highly_optimized | julia_con | v | dart | swift | swift_con | node | bun | deno | perry | scriptc | fortran | nax | java | java_graal | java_graal_con | nim | luajit | lua | fsharp | fsharp_aot | fsharp_con | csharp | csharp_aot | | php | dascript | all | clean. Unknown argument: $first_arg"
+    echo "Valid args: go | go_con | go_ho | rust | rust_con | d | d_con | r | py | numpy | erlang | cl | numba | numba_con | cr | zig_fast | zig_con | odin | c3 | jq | julia | julia_highly_optimized | julia_con | v | dart | swift | swift_con | node | bun | deno | perry | scriptc | fortran | nax | haxe | java | java_graal | java_graal_con | nim | luajit | lua | fsharp | fsharp_aot | fsharp_con | csharp | csharp_aot | | php | dascript | all | clean. Unknown argument: $first_arg"
 
 fi
