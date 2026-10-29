@@ -78,6 +78,7 @@ docker run -e TEST_NAME=go -it --rm go_databench
 | Go | 17.95 ms | 245.89 ms | 2.11 s | 2.37 s |
 | Neat | 21.99 ms | 260.59 ms | 2.16 s | 2.45 s |
 | C# (JIT) | 20.89 ms | 275.58 ms | 2.17 s | 2.47 s |
+| Fortran | 14.30 ms | 230.00 ms | 2.29 s | 2.54 s |
 | C# (AOT) | 29.63 ms | 282.96 ms | 2.43 s | 2.74 s |
 | Zig | 25.40 ms | 338.00 ms | 2.90 s | 3.26 s |
 | F# (JIT) | 23.85 ms | 346.59 ms | 3.05 s | 3.42 s |
