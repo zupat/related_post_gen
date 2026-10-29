@@ -91,7 +91,7 @@ docker run -e TEST_NAME=go -it --rm go_databench
 | Numba | 48.91 ms | 576.45 ms | 4.55 s | 5.18 s |
 | Scala Native | 64.10 ms | 651.67 ms | 5.16 s | 5.87 s |
 | Crystal | 47.81 ms | 658.87 ms | 5.71 s | 6.42 s |
-| TypeScript (scriptc) | 50.50 ms | 716.00 ms | 6.35 s | 7.11 s |
+| TypeScript (scriptc) | 50.70 ms | 725.67 ms | 6.44 s | 7.21 s |
 | Ada | 59.08 ms | 802.16 ms | 6.90 s | 7.76 s |
 | Dart VM | 64.10 ms | 977.00 ms | 7.78 s | 8.82 s |
 | LuaJIT | 85.55 ms | 931.89 ms | 8.28 s | 9.30 s |
@@ -106,13 +106,13 @@ docker run -e TEST_NAME=go -it --rm go_databench
 | Lobster (JIT) | 152.55 ms | 2.28 s | 20.55 s | 22.99 s |
 | Racket | 166.72 ms | 2.51 s | 21.78 s | 24.46 s |
 | Typed Racket | 167.70 ms | 2.46 s | 22.34 s | 24.97 s |
+| TypeScript (Perry) | 449.50 ms | 6.27 s | 54.71 s | 61.43 s |
 | LuaJIT (JIT OFF) | 470.18 ms | 7.23 s | 64.28 s | 71.98 s |
 | PHP | 597.30 ms | 9.35 s | 83.54 s | 93.49 s |
 | Erlang | 616.03 ms | 9.87 s | 101.74 s | 112.23 s |
 | Python | 1.10 s | 17.94 s | 160.21 s | 179.24 s |
 | Ruby | 1.18 s | 18.62 s | 170.60 s | 190.41 s |
 | Lua | 1.33 s | 20.73 s | 184.99 s | 207.05 s |
-| TypeScript (Perry) | 3.83 s | 60.89 s | 684.02 s | 748.74 s |
 
 ### Multicore Results
 
