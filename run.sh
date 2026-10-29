@@ -453,6 +453,16 @@ run_fortran() {
         check_output "related_posts_fortran.json"
 }
 
+run_hare() {
+    echo "Running Hare" &&
+        cd ./hare &&
+        if [ -z "$appendToFile" ]; then # only build on 5k run
+            hare build -R -o related ./related.ha
+        fi &&
+        run_command "Hare" $runs ./related &&
+        check_output "related_posts_hare.json"
+}
+
 run_nax() {
     echo "Running Nax" &&
         cd ./nax &&
@@ -1016,6 +1026,10 @@ elif [ "$first_arg" = "fortran" ]; then
 
     run_fortran
 
+elif [ "$first_arg" = "hare" ]; then
+
+    run_hare
+
 elif [ "$first_arg" = "nax" ]; then
 
     run_nax
@@ -1217,6 +1231,7 @@ elif [ "$first_arg" = "all" ]; then
         run_perry || echo -e "\n" &&
         run_scriptc || echo -e "\n" &&
         run_fortran || echo -e "\n" &&
+        run_hare || echo -e "\n" &&
         run_nax || echo -e "\n" &&
         run_java || echo -e "\n" &&
         run_java_con || echo -e "\n" &&
@@ -1293,6 +1308,8 @@ elif [ "$first_arg" = "clean" ]; then
         cd .. &&
         cd fortran && rm -f related &&
         cd .. &&
+        cd hare && rm -f related &&
+        cd .. &&
         cd nax && rm -f related &&
         cd .. &&
         cd java && mvn -q -B clean &&
@@ -1301,6 +1318,6 @@ elif [ "$first_arg" = "clean" ]; then
 
 else
 
-    echo "Valid args: go | go_con | go_ho | rust | rust_con | d | d_con | r | py | numpy | erlang | cl | numba | numba_con | cr | zig_fast | zig_con | odin | c3 | jq | julia | julia_highly_optimized | julia_con | v | dart | swift | swift_con | node | bun | deno | perry | scriptc | fortran | nax | java | java_graal | java_graal_con | nim | luajit | lua | fsharp | fsharp_aot | fsharp_con | csharp | csharp_aot | | php | dascript | all | clean. Unknown argument: $first_arg"
+    echo "Valid args: go | go_con | go_ho | rust | rust_con | d | d_con | r | py | numpy | erlang | cl | numba | numba_con | cr | zig_fast | zig_con | odin | c3 | jq | julia | julia_highly_optimized | julia_con | v | dart | swift | swift_con | node | bun | deno | perry | scriptc | fortran | hare | nax | java | java_graal | java_graal_con | nim | luajit | lua | fsharp | fsharp_aot | fsharp_con | csharp | csharp_aot | | php | dascript | all | clean. Unknown argument: $first_arg"
 
 fi
