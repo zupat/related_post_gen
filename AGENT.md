@@ -50,7 +50,7 @@ Published numbers are machine-specific: `readme.md` carries a
 | `readme.md` | results tables + rules + HO disclaimer |
 | `ovhcloud_bench.sh` | one-command provider: create a Metal Instance, set it up, run in tmux |
 | `ghcr_images.sh` | publish/pull the built images (GitHub container registry) |
-| `.agents/skills/update-toolchains/` | user-invoked skill: refresh stale toolchain pins, verify each image in Vercel Sandboxes, open one PR |
+| `.agents/skills/update-toolchains/` | user-invoked skill: refresh stale toolchain pins, verify each image with local Docker or Vercel Sandboxes, open one PR |
 | `setup.md` | human setup guide (manual + wrappers) |
 | `.github/workflows/build-images.yml` | `workflow_dispatch` matrix that builds every image in parallel (optionally pushes to GHCR) |
 | `.github/workflows/benchmark.yml` | legacy native-benchmark workflow (not the current path) |
@@ -132,11 +132,25 @@ the whole Dockerfile by `gen_dockerfile.sh`; the old behaviour (merge into a sha
 `docker_run.sh` holds the authoritative `test → image` map (`NameToImage`); `update_results.sh`
 parses it, so keep the `["name"]="image"` formatting.
 
-### Verifying an image change — in a Vercel Sandbox, never locally
+### Verifying an image change — local Docker first, Vercel Sandbox fallback
 
-Do **not** build or run these images on the machine the agent runs on. They are
-large, the timings are only meaningful on a clean box, and a local build competes
-with everything else for CPU/disk. Use a Vercel Sandbox:
+Use local Docker when it is installed and usable:
+
+```bash
+.agents/skills/update-toolchains/scripts/run-tests.sh \
+  --engine docker --worktree <worktree> \
+  --dockerfile dockerfiles/<image>.Dockerfile \
+  --tag <image>_test <test> [test...]
+```
+
+This builds a copy of the Dockerfile with the `#precompile` block stripped (that
+block clones `main` and would test old sources) and runs each test with
+`bash -c "./run.sh <test>"` — not `-lc`, which sources `/etc/profile` and drops
+the toolchain from `PATH`. A test passes only when its output shows
+`Success: … is valid!` or a zero exit code.
+
+If Docker is not available, use a Vercel Sandbox when the CLI is installed and
+authenticated:
 
 ```bash
 .agents/skills/update-toolchains/scripts/check-sandbox.sh   # 0 = ready, 2 = missing, 3 = not logged in
@@ -146,19 +160,18 @@ with everything else for CPU/disk. Use a Vercel Sandbox:
   --tag <image>_test <test> [test...]
 ```
 
-`vercel-run.sh` creates the sandbox, installs and starts Docker inside it, copies
-the worktree in, and runs `scripts/run-tests.sh`, which builds a copy of the
-Dockerfile with the `#precompile` block stripped (that block clones `main` and
-would test old sources) and runs each test with `bash -c "./run.sh <test>"` — not
-`-lc`, which sources `/etc/profile` and drops the toolchain from `PATH`. A test
-passes only when its output shows `Success: … is valid!` or a zero exit code.
+`vercel-run.sh` creates the sandbox, installs and starts Docker inside it,
+copies the worktree in, and runs the same `scripts/run-tests.sh`.
 
-Local `run-tests.sh --engine docker|podman` exists as a fallback **only** after the
-user explicitly agrees; `vercel-run.sh` refuses to fall back on its own. Full
-details: `.agents/skills/update-toolchains/SKILL.md` and its
+If neither local Docker nor the Vercel Sandbox CLI is available, stop and ask
+the user. Do not silently fall back to another engine. Local Docker and
+sandboxes are for build/correctness verification; published timings still come
+from the dedicated benchmark machine (§9).
+
+Full details: `.agents/skills/update-toolchains/SKILL.md` and its
 `references/sandbox-recipe.md`.
 
-When several sandboxes run at once, pass an explicit `--name` to each. The
+When several Vercel sandboxes run at once, pass an explicit `--name` to each. The
 default name is `<worktree basename>-<epoch seconds>`, so two runs started from
 the same worktree in the same second collide: one dies and the other's `exec`
 fails with `Named sandbox … not found`.
@@ -297,8 +310,10 @@ needs nothing. Keep packages public — private GHCR storage is metered.
 ## 11. Invariants and traps
 
 - **One** `Processing time (w/o IO)` line per executed run; extra lines skew the average.
-- **Never build or test an image on the local machine.** Verify in a Vercel Sandbox
-  (`scripts/vercel-run.sh`, §5); local Docker/Podman only with explicit user approval.
+- **Verify images with local Docker when it is installed**; otherwise use a Vercel
+  Sandbox (`scripts/run-tests.sh` / `scripts/vercel-run.sh`, §5). If neither is
+  available, stop and ask. Local builds are for build/correctness checks, not for
+  publishing timings.
 - An image's tag covers `docker_start.sh` as well as its Dockerfile, so a harness
   edit republishes every image (see §10).
 - Every language must produce **three** dataset sections or extraction bails.
@@ -328,9 +343,14 @@ needs nothing. Keep packages public — private GHCR storage is metered.
 # generate an image's Dockerfile (no build)
 ./gen_dockerfile.sh go
 
-# build + test one image: Vercel Sandbox, never local docker (see §5)
-.agents/skills/update-toolchains/scripts/vercel-run.sh --worktree . \
+# build + test one image: local Docker if installed, else Vercel Sandbox (see §5)
+.agents/skills/update-toolchains/scripts/run-tests.sh \
+  --engine docker --worktree . \
   --dockerfile dockerfiles/go.Dockerfile --tag go_test go
+
+# fallback when local Docker is unavailable:
+# .agents/skills/update-toolchains/scripts/vercel-run.sh --worktree . \
+#   --dockerfile dockerfiles/go.Dockerfile --tag go_test go
 
 # build/publish every image in CI (content-tag aware; skips what is published)
 gh workflow run build-images.yml -f push=true
