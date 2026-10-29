@@ -91,6 +91,7 @@ docker run -e TEST_NAME=go -it --rm go_databench
 | Numba | 48.91 ms | 576.45 ms | 4.55 s | 5.18 s |
 | Scala Native | 64.10 ms | 651.67 ms | 5.16 s | 5.87 s |
 | Crystal | 47.81 ms | 658.87 ms | 5.71 s | 6.42 s |
+| TypeScript (scriptc) | 50.50 ms | 716.00 ms | 6.35 s | 7.11 s |
 | Ada | 59.08 ms | 802.16 ms | 6.90 s | 7.76 s |
 | Dart VM | 64.10 ms | 977.00 ms | 7.78 s | 8.82 s |
 | LuaJIT | 85.55 ms | 931.89 ms | 8.28 s | 9.30 s |
@@ -111,6 +112,7 @@ docker run -e TEST_NAME=go -it --rm go_databench
 | Python | 1.10 s | 17.94 s | 160.21 s | 179.24 s |
 | Ruby | 1.18 s | 18.62 s | 170.60 s | 190.41 s |
 | Lua | 1.33 s | 20.73 s | 184.99 s | 207.05 s |
+| TypeScript (Perry) | 3.83 s | 60.89 s | 684.02 s | 748.74 s |
 
 ### Multicore Results
 
