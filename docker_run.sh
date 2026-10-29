@@ -32,6 +32,7 @@ declare -A NameToImage=(
     ["deno"]="js"
     ["perry"]="perry"
     ["scriptc"]="scriptc"
+    ["fortran"]="fortran"
     ["bun"]="js"
     ["java"]="java"
     ["java_con"]="java"

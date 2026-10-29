@@ -442,6 +442,17 @@ run_scriptc() {
         check_output "related_posts_scriptc.json"
 }
 
+run_fortran() {
+    echo "Running Fortran" &&
+        cd ./fortran &&
+        if [ -z "$appendToFile" ]; then # only build on 5k run
+            gfortran -O3 -ffree-line-length-none -I/usr/local/include \
+                -L/usr/local/lib related.f90 -ljsonfortran -o related
+        fi &&
+        run_command "Fortran" $runs ./related &&
+        check_output "related_posts_fortran.json"
+}
+
 run_java() {
     VM_OPTIONS="-XX:+UseSerialGC"
     echo "Running Java (JIT)" &&
@@ -992,6 +1003,10 @@ elif [ "$first_arg" = "scriptc" ]; then
 
     run_scriptc
 
+elif [ "$first_arg" = "fortran" ]; then
+
+    run_fortran
+
 elif [ "$first_arg" = "java" ]; then
 
     run_java
@@ -1188,6 +1203,7 @@ elif [ "$first_arg" = "all" ]; then
         run_js "deno" || echo -e "\n" &&
         run_perry || echo -e "\n" &&
         run_scriptc || echo -e "\n" &&
+        run_fortran || echo -e "\n" &&
         run_java || echo -e "\n" &&
         run_java_con || echo -e "\n" &&
         run_java_graal || echo -e "\n" &&
@@ -1261,12 +1277,14 @@ elif [ "$first_arg" = "clean" ]; then
         cd .. &&
         cd ts && rm -f perry_bin related_perry related_scriptc &&
         cd .. &&
+        cd fortran && rm -f related &&
+        cd .. &&
         cd java && mvn -q -B clean &&
         cd .. &&
         rm -f related_*.json
 
 else
 
-    echo "Valid args: go | go_con | go_ho | rust | rust_con | d | d_con | r | py | numpy | erlang | cl | numba | numba_con | cr | zig_fast | zig_con | odin | c3 | jq | julia | julia_highly_optimized | julia_con | v | dart | swift | swift_con | node | bun | deno | perry | scriptc | java | java_graal | java_graal_con | nim | luajit | lua | fsharp | fsharp_aot | fsharp_con | csharp | csharp_aot | | php | dascript | all | clean. Unknown argument: $first_arg"
+    echo "Valid args: go | go_con | go_ho | rust | rust_con | d | d_con | r | py | numpy | erlang | cl | numba | numba_con | cr | zig_fast | zig_con | odin | c3 | jq | julia | julia_highly_optimized | julia_con | v | dart | swift | swift_con | node | bun | deno | perry | scriptc | fortran | java | java_graal | java_graal_con | nim | luajit | lua | fsharp | fsharp_aot | fsharp_con | csharp | csharp_aot | | php | dascript | all | clean. Unknown argument: $first_arg"
 
 fi
