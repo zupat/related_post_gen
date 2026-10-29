@@ -132,7 +132,7 @@ the whole Dockerfile by `gen_dockerfile.sh`; the old behaviour (merge into a sha
 `docker_run.sh` holds the authoritative `test → image` map (`NameToImage`); `update_results.sh`
 parses it, so keep the `["name"]="image"` formatting.
 
-### Verifying an image change — local Docker first, Vercel Sandbox fallback
+### Verifying an image change — local Docker first, opt-in Vercel Sandbox fallback
 
 Use local Docker when it is installed and usable:
 
@@ -149,11 +149,13 @@ block clones `main` and would test old sources) and runs each test with
 the toolchain from `PATH`. A test passes only when its output shows
 `Success: … is valid!` or a zero exit code.
 
-If Docker is not available, use a Vercel Sandbox when the CLI is installed and
-authenticated:
+If Docker is not available, check whether the Vercel Sandbox CLI is installed and
+authenticated, then **ask the user before creating a sandbox**. Only run
+`vercel-run.sh` after they agree:
 
 ```bash
 .agents/skills/update-toolchains/scripts/check-sandbox.sh   # 0 = ready, 2 = missing, 3 = not logged in
+# ask the user first; if they agree:
 .agents/skills/update-toolchains/scripts/vercel-run.sh \
   --worktree <worktree> \
   --dockerfile dockerfiles/<image>.Dockerfile \
@@ -310,10 +312,11 @@ needs nothing. Keep packages public — private GHCR storage is metered.
 ## 11. Invariants and traps
 
 - **One** `Processing time (w/o IO)` line per executed run; extra lines skew the average.
-- **Verify images with local Docker when it is installed**; otherwise use a Vercel
-  Sandbox (`scripts/run-tests.sh` / `scripts/vercel-run.sh`, §5). If neither is
-  available, stop and ask. Local builds are for build/correctness checks, not for
-  publishing timings.
+- **Verify images with local Docker when it is installed**; if it is not, check
+  for an installed/authenticated Vercel Sandbox CLI and **ask the user before
+  using it** (`scripts/run-tests.sh` / `scripts/vercel-run.sh`, §5). If neither
+  is available, stop and ask. Local builds are for build/correctness checks,
+  not for publishing timings.
 - An image's tag covers `docker_start.sh` as well as its Dockerfile, so a harness
   edit republishes every image (see §10).
 - Every language must produce **three** dataset sections or extraction bails.
@@ -343,12 +346,13 @@ needs nothing. Keep packages public — private GHCR storage is metered.
 # generate an image's Dockerfile (no build)
 ./gen_dockerfile.sh go
 
-# build + test one image: local Docker if installed, else Vercel Sandbox (see §5)
+# build + test one image: local Docker if installed; otherwise ask before
+# using an installed Vercel Sandbox (see §5)
 .agents/skills/update-toolchains/scripts/run-tests.sh \
   --engine docker --worktree . \
   --dockerfile dockerfiles/go.Dockerfile --tag go_test go
 
-# fallback when local Docker is unavailable:
+# fallback only after the user agrees:
 # .agents/skills/update-toolchains/scripts/vercel-run.sh --worktree . \
 #   --dockerfile dockerfiles/go.Dockerfile --tag go_test go
 
