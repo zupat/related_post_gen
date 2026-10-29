@@ -68,3 +68,6 @@ ts/package-lock.json
 
 # Fortran
 fortran/related
+
+# Nax
+nax/related

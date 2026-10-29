@@ -104,6 +104,7 @@ docker run -e TEST_NAME=go -it --rm go_databench
 | Clojure | 94.30 ms | 1.08 s | 10.98 s | 12.15 s |
 | Ocaml | 90.10 ms | 1.33 s | 11.86 s | 13.28 s |
 | Vlang | 98.60 ms | 1.48 s | 13.17 s | 14.75 s |
+| Nax | 151.30 ms | 2.07 s | 18.06 s | 20.28 s |
 | Lobster (JIT) | 152.55 ms | 2.28 s | 20.55 s | 22.99 s |
 | Racket | 166.72 ms | 2.51 s | 21.78 s | 24.46 s |
 | Typed Racket | 167.70 ms | 2.46 s | 22.34 s | 24.97 s |

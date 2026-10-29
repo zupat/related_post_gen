@@ -1,0 +1,239 @@
+// Nax implementation.
+//
+// naxlang/nax is not public yet, so the image pins the latest Nature weekly
+// release; Nax is the renamed Nature compiler and uses the same syntax and
+// standard library.
+
+import json
+import fs
+import syscall
+import fmt
+import time
+
+type post_t = struct {
+    string _id
+    string title
+    [string] tags
+}
+
+type related_post_t = struct {
+    string _id
+    string title
+    [string] tags
+    [post_t] related
+}
+
+fn escape(string s):string {
+    var hex = '0123456789abcdef'
+    [u8] out = []
+    out.push(34)
+    for int i = 0; i < s.len(); i += 1 {
+        u8 c = s[i]
+        if c == 34 {
+            out.push(92)
+            out.push(34)
+        } else if c == 92 {
+            out.push(92)
+            out.push(92)
+        } else if c == 8 {
+            out.push(92)
+            out.push(98)
+        } else if c == 9 {
+            out.push(92)
+            out.push(116)
+        } else if c == 10 {
+            out.push(92)
+            out.push(110)
+        } else if c == 12 {
+            out.push(92)
+            out.push(102)
+        } else if c == 13 {
+            out.push(92)
+            out.push(114)
+        } else if c < 32 {
+            out.push(92)
+            out.push(117)
+            out.push(48)
+            out.push(48)
+            out.push(hex[(c >> 4) as int])
+            out.push(hex[(c & 15) as int])
+        } else {
+            out.push(c)
+        }
+    }
+    out.push(34)
+    return out as string
+}
+
+fn post_json(post_t p):string {
+    [u8] out = []
+    out.append('{"_id":' as [u8])
+    out.append(escape(p._id) as [u8])
+    out.append(',"title":' as [u8])
+    out.append(escape(p.title) as [u8])
+    out.append(',"tags":[' as [u8])
+    for int k = 0; k < p.tags.len(); k += 1 {
+        if k > 0 {
+            out.push(44)
+        }
+        out.append(escape(p.tags[k]) as [u8])
+    }
+    out.append(']}' as [u8])
+    return out as string
+}
+
+fn main() {
+    var f = fs.open('../posts.json', syscall.O_RDONLY, 0)
+    var content = f.content()
+    f.close()
+
+    var posts = json.deserialize<[post_t]>(content)
+    var n = posts.len()
+
+    // Tags become dense integer ids so the hot loop never hashes a string.
+    {string:int} tag_ids = {}
+    [[int]] tag_posts = []
+
+    for int i = 0; i < n; i += 1 {
+        var tags = posts[i].tags
+        for int j = 0; j < tags.len(); j += 1 {
+            var tag = tags[j]
+            var id = 0
+            if tag_ids.contains(tag) {
+                id = tag_ids[tag]
+            } else {
+                id = tag_posts.len()
+                tag_ids[tag] = id
+                [int] empty = []
+                tag_posts.push(empty)
+            }
+            tag_posts[id].push(i)
+        }
+    }
+
+    var tagged = [0; n]
+    [related_post_t] all = []
+
+    var top_idx = [0; 5]
+    var top_count = [0; 5]
+
+    var start = time.now().ms_timestamp()
+
+    for int i = 0; i < n; i += 1 {
+        for int j = 0; j < n; j += 1 {
+            tagged[j] = 0
+        }
+
+        var tags = posts[i].tags
+        for int j = 0; j < tags.len(); j += 1 {
+            var id = tag_ids[tags[j]]
+            var others = tag_posts[id]
+            for int k = 0; k < others.len(); k += 1 {
+                tagged[others[k]] += 1
+            }
+        }
+
+        tagged[i] = 0
+
+        for int k = 0; k < 5; k += 1 {
+            top_count[k] = 0
+            top_idx[k] = 0
+        }
+        var filled = 0
+        var min_tags = 0
+
+        for int j = 0; j < n; j += 1 {
+            var c = tagged[j]
+            if c > min_tags {
+                var pos = 4
+                for true {
+                    if pos < 0 {
+                        break
+                    }
+                    if c <= top_count[pos] {
+                        break
+                    }
+                    pos -= 1
+                }
+                pos += 1
+
+                for int k = 4; k > pos; k -= 1 {
+                    top_count[k] = top_count[k - 1]
+                    top_idx[k] = top_idx[k - 1]
+                }
+                top_count[pos] = c
+                top_idx[pos] = j
+
+                if filled < 5 {
+                    filled += 1
+                }
+                if filled == 5 {
+                    min_tags = top_count[4]
+                } else {
+                    min_tags = 0
+                }
+            }
+        }
+
+        [post_t] rels = []
+        for int k = 0; k < filled; k += 1 {
+            rels.push(posts[top_idx[k]])
+        }
+
+        all.push(related_post_t {
+            _id: posts[i]._id,
+            title: posts[i].title,
+            tags: posts[i].tags,
+            related: rels,
+        })
+    }
+
+    var elapsed = time.now().ms_timestamp() - start
+    fmt.printf('Processing time (w/o IO): %dms\n', elapsed)
+
+    // Build the output manually: json.serialize on an output this size uses
+    // gigabytes of transient memory.
+    var w = fs.open('../related_posts_nax.json', syscall.O_WRONLY | syscall.O_CREAT | syscall.O_TRUNC, 420)
+
+    [u8] line = []
+    line.push(91) // '['
+    for int i = 0; i < all.len(); i += 1 {
+        if i > 0 {
+            line.push(44)
+        }
+
+        var p = all[i]
+        line.append('{"_id":' as [u8])
+        line.append(escape(p._id) as [u8])
+        line.append(',"title":' as [u8])
+        line.append(escape(p.title) as [u8])
+        line.append(',"tags":[' as [u8])
+        for int k = 0; k < p.tags.len(); k += 1 {
+            if k > 0 {
+                line.push(44)
+            }
+            line.append(escape(p.tags[k]) as [u8])
+        }
+        line.append('],"related":[' as [u8])
+        for int k = 0; k < p.related.len(); k += 1 {
+            if k > 0 {
+                line.push(44)
+            }
+            line.append(post_json(p.related[k]) as [u8])
+        }
+        line.append(']}' as [u8])
+
+        var off = 0
+        for off < line.len() {
+            var written = w.write(line[off..])
+            if written <= 0 {
+                panic('short write')
+            }
+            off += written
+        }
+        line = []
+    }
+    line.push(93) // ']'
+    w.write(line)
+    w.close()
+}
