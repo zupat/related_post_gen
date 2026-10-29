@@ -24,8 +24,9 @@ RUN git clone --depth 1 --branch 9.3.1 https://github.com/jacobwilliams/json-for
     rm -rf /tmp/json-fortran
 RUN gfortran --version | head -1
 
-#precompile
-RUN git clone https://github.com/jinyus/related_post_gen.git /tmp/repo && cd /tmp/repo && ./run.sh fortran
+# No #precompile block: this image is added before fortran/ exists on the
+# upstream main branch, so a clone-and-run at image-build time would fail.
+# Benchmarks compile the source at container start anyway.
 
 WORKDIR /app
 RUN mkdir -p /results
