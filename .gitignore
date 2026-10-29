@@ -71,3 +71,9 @@ fortran/related
 
 # Nax
 nax/related
+
+# Flix
+flix/artifact/
+flix/build/
+flix/lib/
+flix/packages.lock

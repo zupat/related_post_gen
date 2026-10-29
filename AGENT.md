@@ -353,7 +353,7 @@ dart extract_results.dart results
 
 ## 13. Current state (as of the Debian migration)
 
-- 33 self-contained images, 67 tests, no Arch packages anywhere. `inko` was dropped
+- 34 self-contained images, 68 tests, no Arch packages anywhere. `inko` was dropped
   (never published, no results file, Arch-AUR-only recipe).
 - Heavy images are `swift`, `dotnet`, `java` (GraalVM + sbt), `base` (Dart SDK + clang).
 - Version pins live in the fragments with comments explaining why (zig, odin, nim, v, c3,
