@@ -69,8 +69,17 @@ ts/package-lock.json
 # Fortran
 fortran/related
 
+# Hare
+hare/related
+
 # Nax
 nax/related
 
 # Haxe
 haxe/bin/
+
+# Flix
+flix/artifact/
+flix/build/
+flix/lib/
+flix/packages.lock
