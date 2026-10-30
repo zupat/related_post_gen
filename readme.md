@@ -116,6 +116,7 @@ docker run -e TEST_NAME=go -it --rm go_databench
 | PHP | 597.30 ms | 9.35 s | 83.54 s | 93.49 s |
 | Erlang | 616.03 ms | 9.87 s | 101.74 s | 112.23 s |
 | Python | 1.10 s | 17.94 s | 160.21 s | 179.24 s |
+| Gleam | 793.95 ms | 12.61 s | 173.79 s | 187.19 s |
 | Ruby | 1.18 s | 18.62 s | 170.60 s | 190.41 s |
 | Lua | 1.33 s | 20.73 s | 184.99 s | 207.05 s |
 
