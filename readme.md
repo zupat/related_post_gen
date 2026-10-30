@@ -71,6 +71,7 @@ docker run -e TEST_NAME=go -it --rm go_databench
 | D (v2) | $\textsf{\color{lightgreen}13.38 ms}$ | $\textsf{\color{lightgreen}153.50 ms}$ | $\textsf{\color{lightgreen}1.20 s}$ | 1.36 s |
 | c3 | 14.10 ms | 171.67 ms | 1.33 s | 1.52 s |
 | Rust | 13.56 ms | 172.45 ms | 1.40 s | 1.58 s |
+| Zig | 14.80 ms | 179.33 ms | 1.43 s | 1.63 s |
 | C++ | 14.20 ms | 177.33 ms | 1.46 s | 1.65 s |
 | Odin | 17.78 ms | 229.20 ms | 1.93 s | 2.17 s |
 | D | 18.76 ms | 236.75 ms | 1.98 s | 2.24 s |
@@ -80,7 +81,6 @@ docker run -e TEST_NAME=go -it --rm go_databench
 | C# (JIT) | 20.89 ms | 275.58 ms | 2.17 s | 2.47 s |
 | Fortran | 14.30 ms | 230.00 ms | 2.29 s | 2.54 s |
 | C# (AOT) | 29.63 ms | 282.96 ms | 2.43 s | 2.74 s |
-| Zig | 25.40 ms | 338.00 ms | 2.90 s | 3.26 s |
 | F# (JIT) | 23.85 ms | 346.59 ms | 3.05 s | 3.42 s |
 | Julia | 21.53 ms | 334.98 ms | 3.10 s | 3.46 s |
 | Java (JIT) | 28.00 ms | 378.33 ms | 3.31 s | 3.71 s |
