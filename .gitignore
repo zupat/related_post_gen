@@ -75,6 +75,9 @@ hare/related
 # Nax
 nax/related
 
+# Haxe
+haxe/bin/
+
 # Flix
 flix/artifact/
 flix/build/

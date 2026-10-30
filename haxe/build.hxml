@@ -1,0 +1,5 @@
+-cp .
+-main Main
+-cpp bin
+-D analyzer-optimize
+-D no-traces

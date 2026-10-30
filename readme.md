@@ -98,6 +98,7 @@ docker run -e TEST_NAME=go -it --rm go_databench
 | Ada | 59.08 ms | 802.16 ms | 6.90 s | 7.76 s |
 | Dart VM | 64.10 ms | 977.00 ms | 7.78 s | 8.82 s |
 | LuaJIT | 85.55 ms | 931.89 ms | 8.28 s | 9.30 s |
+| Haxe | 66.20 ms | 961.33 ms | 8.42 s | 9.45 s |
 | JS (Bun) | 76.30 ms | 960.00 ms | 8.74 s | 9.78 s |
 | Dart AOT | 70.70 ms | 1.05 s | 9.28 s | 10.40 s |
 | JS (Node) | 99.00 ms | 1.23 s | 10.26 s | 11.59 s |
