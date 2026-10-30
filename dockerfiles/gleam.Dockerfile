@@ -10,7 +10,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     rm -rf /var/lib/apt/lists/* && \
     pip3 install --break-system-packages --no-cache-dir faker nanoid
 
-# Pin the compiler: the implementation is written against Gleam 0.32.
+# Pin Gleam 0.32.4: PR #415 was written against this compiler, and it builds
+# on Debian 12's Erlang/OTP 25. OTP 25 is also the runtime used by the Erlang
+# benchmark image and provides the erts_internal counters used by the hot loop.
+# Gleam 1.19.2 generated Erlang that OTP 25 could not compile; moving to a
+# newer OTP image would make the Gleam and Erlang entries use different
+# runtimes, so keep this pinned while the comparison is against OTP 25.
 RUN curl -fsSL -o /tmp/gleam.tar.gz \
         https://github.com/gleam-lang/gleam/releases/download/v0.32.4/gleam-v0.32.4-x86_64-unknown-linux-musl.tar.gz && \
     tar -xzf /tmp/gleam.tar.gz -C /tmp && \
