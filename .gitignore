@@ -75,6 +75,10 @@ hare/related
 # Nax
 nax/related
 
+# Gleam
+gleam/build/
+gleam/erl_crash.dump
+
 # Haxe
 haxe/bin/
 
