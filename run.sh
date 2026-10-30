@@ -474,7 +474,8 @@ run_flix() {
 }
 
 run_java() {
-    VM_OPTIONS="-XX:+UseSerialGC"    echo "Running Java (JIT)" &&
+    VM_OPTIONS="-XX:+UseSerialGC"
+    echo "Running Java (JIT)" &&
         cd ./java &&
         java -version &&
         mvn -q -B -Pjvm clean package &&
