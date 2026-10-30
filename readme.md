@@ -92,6 +92,7 @@ docker run -e TEST_NAME=go -it --rm go_databench
 | Common Lisp (SBCL) | 36.00 ms | 470.00 ms | 4.11 s | 4.62 s |
 | Numba | 48.91 ms | 576.45 ms | 4.55 s | 5.18 s |
 | Scala Native | 64.10 ms | 651.67 ms | 5.16 s | 5.87 s |
+| Hare | 42.39 ms | 614.00 ms | 5.47 s | 6.13 s |
 | Crystal | 47.81 ms | 658.87 ms | 5.71 s | 6.42 s |
 | TypeScript (scriptc) | 50.70 ms | 725.67 ms | 6.44 s | 7.21 s |
 | Ada | 59.08 ms | 802.16 ms | 6.90 s | 7.76 s |
