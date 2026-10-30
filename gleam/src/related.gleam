@@ -66,9 +66,13 @@ fn scan(
       case count > minimum {
         True -> {
           let top = insert_top(top, #(count, index)) |> list.take(5)
-          let minimum = case list.last(top) {
-            Ok(#(count, _)) -> count
-            Error(_) -> 0
+          let minimum = case list.length(top) < 5 {
+            True -> 0
+            False ->
+              case list.last(top) {
+                Ok(#(count, _)) -> count
+                Error(_) -> 0
+              }
           }
           scan(index + 1, size, counters, top, minimum)
         }
