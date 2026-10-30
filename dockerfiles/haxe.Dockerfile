@@ -3,7 +3,7 @@ FROM haxe:4.3.7-bookworm
 
 # benchmark harness (git, GNU time, which and python for the generator/verifier)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git python3 python3-pip time which curl wget ca-certificates sudo && \
+    git python3 python3-pip time which curl wget ca-certificates sudo build-essential && \
     rm -rf /var/lib/apt/lists/* && \
     pip3 install --break-system-packages --no-cache-dir faker nanoid
 
