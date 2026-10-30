@@ -378,11 +378,11 @@ dart extract_results.dart results
 
 ## 13. Current state (as of the Debian migration)
 
-- 37 self-contained images, 71 tests, no Arch packages anywhere. `inko` was dropped
+- 38 self-contained images, 72 tests, no Arch packages anywhere. `inko` was dropped
   (never published, no results file, Arch-AUR-only recipe).
 - Heavy images are `swift`, `dotnet`, `java` (GraalVM + sbt), `base` (Dart SDK + clang).
 - Version pins live in the fragments with comments explaining why (zig, odin, nim, v, c3,
-  neat, ldc, alire, hxcpp).
+  neat, ldc, alire, hxcpp, mojo).
 - The Debian migration has **not** been build-tested as a whole; first run will surface
   missing package names. Fix per language — each image is independent.
 - `run.sh` carries two behavioural fixes worth preserving: the absolute results path (for

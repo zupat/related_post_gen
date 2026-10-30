@@ -79,6 +79,9 @@ nax/related
 gleam/build/
 gleam/erl_crash.dump
 
+# Mojo
+mojo/related
+
 # Haxe
 haxe/bin/
 

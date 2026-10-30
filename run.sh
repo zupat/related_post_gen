@@ -495,6 +495,16 @@ run_gleam() {
         check_output "related_posts_gleam.json"
 }
 
+run_mojo() {
+    echo "Running Mojo" &&
+        cd ./mojo &&
+        if [ -z "$appendToFile" ]; then # only build on 5k run
+            mojo build -o related main.mojo
+        fi &&
+        run_command "Mojo" $runs ./related &&
+        check_output "related_posts_mojo.json"
+}
+
 run_flix() {
     echo "Running Flix" &&
         cd ./flix &&
@@ -1075,6 +1085,10 @@ elif [ "$first_arg" = "gleam" ]; then
 
     run_gleam
 
+elif [ "$first_arg" = "mojo" ]; then
+
+    run_mojo
+
 elif [ "$first_arg" = "flix" ]; then
 
     run_flix
@@ -1280,6 +1294,7 @@ elif [ "$first_arg" = "all" ]; then
         run_nax || echo -e "\n" &&
         run_haxe || echo -e "\n" &&
         run_gleam || echo -e "\n" &&
+        run_mojo || echo -e "\n" &&
         run_flix || echo -e "\n" &&
         run_java || echo -e "\n" &&
         run_java_con || echo -e "\n" &&
@@ -1364,6 +1379,8 @@ elif [ "$first_arg" = "clean" ]; then
         cd .. &&
         cd gleam && rm -rf build erl_crash.dump &&
         cd .. &&
+        cd mojo && rm -f related &&
+        cd .. &&
         cd flix && rm -rf artifact build lib packages.lock &&
         cd .. &&
         cd java && mvn -q -B clean &&
@@ -1372,6 +1389,6 @@ elif [ "$first_arg" = "clean" ]; then
 
 else
 
-    echo "Valid args: go | go_con | go_ho | rust | rust_con | d | d_con | r | py | numpy | erlang | cl | numba | numba_con | cr | zig_fast | zig_con | odin | c3 | jq | julia | julia_highly_optimized | julia_con | v | dart | swift | swift_con | node | bun | deno | perry | scriptc | fortran | hare | flix | nax | haxe | gleam | java | java_graal | java_graal_con | nim | luajit | lua | fsharp | fsharp_aot | fsharp_con | csharp | csharp_aot | | php | dascript | all | clean. Unknown argument: $first_arg"
+    echo "Valid args: go | go_con | go_ho | rust | rust_con | d | d_con | r | py | numpy | erlang | cl | numba | numba_con | cr | zig_fast | zig_con | odin | c3 | jq | julia | julia_highly_optimized | julia_con | v | dart | swift | swift_con | node | bun | deno | perry | scriptc | fortran | hare | flix | nax | haxe | gleam | mojo | java | java_graal | java_graal_con | nim | luajit | lua | fsharp | fsharp_aot | fsharp_con | csharp | csharp_aot | | php | dascript | all | clean. Unknown argument: $first_arg"
 
 fi
