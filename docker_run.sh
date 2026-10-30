@@ -35,6 +35,7 @@ declare -A NameToImage=(
     ["fortran"]="fortran"
     ["hare"]="hare"
     ["nax"]="nax"
+    ["gleam"]="gleam"
     ["haxe"]="haxe"
     ["flix"]="flix"
     ["bun"]="js"
