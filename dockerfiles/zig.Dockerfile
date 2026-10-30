@@ -1,6 +1,11 @@
 # Self-contained image: Debian 12 + pinned Zig, no distro Zig package.
 # The sources are kept on the 0.17 std.Io API (the 0.15 std.fs/std.time paths
 # were removed). Replaces the Arch image that was 5.4GB.
+#
+# Zig 0.17.0 ships LLVM 22, whose loop vectorizer no longer vectorizes the
+# is_top byte reduction (LLVM 20 in 0.15.1 did, and that loop is ~40% of the
+# 60k runtime). zig/main.zig therefore writes the reduction with an explicit
+# @Vector; keep that comment when this pin moves.
 FROM debian:12-slim
 
 # benchmark harness (+ libc headers: run.sh compiles with "zig build-exe -lc")
