@@ -9,12 +9,27 @@ const Score = struct {
     pos: usize,
 };
 
+// This is an explicit vector reduction because of an upstream LLVM 22
+// regression: Zig 0.15.1 (LLVM 20.1.2) vectorized the byte reduction below into
+// a 32-byte AVX2 `vpminub`/`vpcmpeqb` loop, but Zig 0.17.0 (LLVM 22.1.8) emits
+// an 8x unrolled scalar `cmpb/setae/or` loop instead (`llvm.loop.isvectorized`
+// is gone from the IR). The scalar loop scans ~1 byte/cycle instead of ~128
+// bytes/iteration, which made the 60k run ~40% slower (1.61s -> 2.27s on a b3-8
+// test VM). Rewriting it this way restores the old speed and produces
+// byte-identical output. Keep this until LLVM vectorizes the idiom again.
 inline fn is_top(m: u8, score: []const u8) u8 {
-    var x: u8 = 0;
-    for (score) |s| {
-        x |= @intFromBool(s > m);
+    const V = @Vector(32, u8);
+    const mv: V = @splat(m);
+    var any = false;
+    var i: usize = 0;
+    while (i + 32 <= score.len) : (i += 32) {
+        const v: V = score[i..][0..32].*;
+        any = any or @reduce(.Or, v > mv);
     }
-    return x;
+    while (i < score.len) : (i += 1) {
+        any = any or score[i] > m;
+    }
+    return @intFromBool(any);
 }
 
 inline fn get_top(b: usize, score: []const u8, min: *u8, t5: []Score) void {

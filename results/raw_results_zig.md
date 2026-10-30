@@ -1,41 +1,41 @@
 
 Zig:
 
-	Processing time (w/o IO): 24ms
-	total: 0.04s memory: 4348k
-	Processing time (w/o IO): 26ms
-	total: 0.04s memory: 4300k
-	Processing time (w/o IO): 25ms
-	total: 0.04s memory: 4428k
-	Processing time (w/o IO): 26ms
-	total: 0.04s memory: 4332k
-	Processing time (w/o IO): 26ms
-	total: 0.04s memory: 4220k
-	Processing time (w/o IO): 25ms
-	total: 0.04s memory: 4300k
-	Processing time (w/o IO): 26ms
-	total: 0.04s memory: 4360k
-	Processing time (w/o IO): 25ms
-	total: 0.04s memory: 4316k
-	Processing time (w/o IO): 26ms
-	total: 0.04s memory: 4316k
-	Processing time (w/o IO): 25ms
-	total: 0.04s memory: 4300k
+	Processing time (w/o IO): 14ms
+	total: 0.03s memory: 4336k
+	Processing time (w/o IO): 15ms
+	total: 0.03s memory: 4200k
+	Processing time (w/o IO): 15ms
+	total: 0.03s memory: 4356k
+	Processing time (w/o IO): 15ms
+	total: 0.03s memory: 4436k
+	Processing time (w/o IO): 15ms
+	total: 0.03s memory: 4284k
+	Processing time (w/o IO): 15ms
+	total: 0.03s memory: 4324k
+	Processing time (w/o IO): 15ms
+	total: 0.03s memory: 4308k
+	Processing time (w/o IO): 14ms
+	total: 0.03s memory: 4264k
+	Processing time (w/o IO): 15ms
+	total: 0.03s memory: 4356k
+	Processing time (w/o IO): 15ms
+	total: 0.03s memory: 4432k
 
 Zig:
 
-	Processing time (w/o IO): 339ms
-	total: 0.41s memory: 11068k
-	Processing time (w/o IO): 336ms
-	total: 0.41s memory: 11084k
-	Processing time (w/o IO): 339ms
-	total: 0.41s memory: 11004k
+	Processing time (w/o IO): 178ms
+	total: 0.25s memory: 10916k
+	Processing time (w/o IO): 188ms
+	total: 0.26s memory: 11092k
+	Processing time (w/o IO): 172ms
+	total: 0.25s memory: 10940k
 
 Zig:
 
-	Processing time (w/o IO): 2894ms
-	total: 3.14s memory: 30060k
-	Processing time (w/o IO): 2902ms
-	total: 3.15s memory: 30140k
-	Processing time (w/o IO): 2900ms
-	total: 3.15s memory: 30044k
+	Processing time (w/o IO): 1436ms
+	total: 1.68s memory: 30036k
+	Processing time (w/o IO): 1428ms
+	total: 1.68s memory: 30068k
+	Processing time (w/o IO): 1434ms
+	total: 1.68s memory: 30068k
