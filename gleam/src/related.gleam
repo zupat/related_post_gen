@@ -59,7 +59,7 @@ fn scan(
   top: List(#(Int, Int)),
   minimum: Int,
 ) -> List(#(Int, Int)) {
-  case index >= size {
+  case index > size {
     True -> top
     False -> {
       let count = counters_get(counters, index)
@@ -88,14 +88,14 @@ fn related_indices(
   list.each(tags, fn(tag) {
     case map.get(tag_map, tag) {
       Ok(indices) -> list.each(indices, fn(index) {
-        counters_add(counters, index, 1)
+        counters_add(counters, index + 1, 1)
       })
       Error(_) -> Nil
     }
   })
-  counters_put(counters, self, 0)
-  scan(0, size, counters, [], 0)
-  |> list.map(fn(pair) { pair.1 })
+  counters_put(counters, self + 1, 0)
+  scan(1, size, counters, [], 0)
+  |> list.map(fn(pair) { pair.1 - 1 })
 }
 
 fn compute(posts: List(Post)) -> List(RelatedPost) {
