@@ -7,7 +7,7 @@ FROM eclipse-temurin:21-jdk-jammy
 
 # benchmark harness
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git python3 python3-pip time which curl ca-certificates && \
+    git python3 python3-pip time curl ca-certificates && \
     rm -rf /var/lib/apt/lists/* && \
     pip3 install --no-cache-dir faker nanoid
 
