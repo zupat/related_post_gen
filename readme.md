@@ -87,6 +87,7 @@ docker run -e TEST_NAME=go -it --rm go_databench
 | Java (GraalVM) | 23.90 ms | 357.33 ms | 3.37 s | 3.75 s |
 | Haskell | 34.04 ms | 437.22 ms | 3.71 s | 4.18 s |
 | F# (AOT) | 27.93 ms | 413.88 ms | 3.79 s | 4.24 s |
+| Vlang | 30.87 ms | 427.41 ms | 3.83 s | 4.29 s |
 | Swift | 27.57 ms | 362.25 ms | 4.06 s | 4.45 s |
 | Common Lisp (SBCL) | 36.00 ms | 470.00 ms | 4.11 s | 4.62 s |
 | Numba | 48.91 ms | 576.45 ms | 4.55 s | 5.18 s |
@@ -103,7 +104,6 @@ docker run -e TEST_NAME=go -it --rm go_databench
 | Pypy | 86.47 ms | 1.18 s | 10.83 s | 12.09 s |
 | Clojure | 94.30 ms | 1.08 s | 10.98 s | 12.15 s |
 | Ocaml | 90.10 ms | 1.33 s | 11.86 s | 13.28 s |
-| Vlang | 98.60 ms | 1.48 s | 13.17 s | 14.75 s |
 | Flix | 127.60 ms | 1.51 s | 13.21 s | 14.85 s |
 | Nax | 151.30 ms | 2.07 s | 18.06 s | 20.28 s |
 | Lobster (JIT) | 152.55 ms | 2.28 s | 20.55 s | 22.99 s |
