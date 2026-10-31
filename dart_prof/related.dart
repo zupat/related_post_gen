@@ -63,25 +63,24 @@ void main() {
     final top5 = Int32List(topN * 2); // flattened list of (count, id)
     var minTags = 0;
 
-    // Iterate the typed list directly so the access is not bounds-checked per
-    // element; keep our own index for the top-5 slot.
-    var candidate = 0;
-    for (final count in taggedPostCount) {
-      if (count > minTags) {
-        // Find upper bound: pos at which count is larger than current one.
-        var upperBound = (topN - 2) * 2;
-        while (upperBound >= 0 && count > top5[upperBound]) {
-          top5[upperBound + 2] = top5[upperBound];
-          top5[upperBound + 3] = top5[upperBound + 1];
-          upperBound -= 2;
-        }
-        final insertionPos = upperBound + 2;
-        top5[insertionPos] = count;
-        top5[insertionPos + 1] = candidate;
-
-        minTags = top5[topN * 2 - 2];
+    for (var i = 0; i < taggedPostCount.length; i++) {
+      final count = taggedPostCount[i];
+      if (count <= minTags) {
+        continue;
       }
-      candidate++;
+
+      // Find upper bound: pos at which count is larger than current one.
+      var upperBound = (topN - 2) * 2;
+      while (upperBound >= 0 && count > top5[upperBound]) {
+        top5[upperBound + 2] = top5[upperBound];
+        top5[upperBound + 3] = top5[upperBound + 1];
+        upperBound -= 2;
+      }
+      final insertionPos = upperBound + 2;
+      top5[insertionPos] = count;
+      top5[insertionPos + 1] = i;
+
+      minTags = top5[topN * 2 - 2];
     }
 
     final t3 = sw.elapsedMicroseconds;
