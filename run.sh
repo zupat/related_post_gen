@@ -1294,7 +1294,6 @@ elif [ "$first_arg" = "all" ]; then
         run_nax || echo -e "\n" &&
         run_haxe || echo -e "\n" &&
         run_gleam || echo -e "\n" &&
-        run_mojo || echo -e "\n" &&
         run_flix || echo -e "\n" &&
         run_java || echo -e "\n" &&
         run_java_con || echo -e "\n" &&

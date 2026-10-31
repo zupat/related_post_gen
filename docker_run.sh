@@ -36,7 +36,6 @@ declare -A NameToImage=(
     ["hare"]="hare"
     ["nax"]="nax"
     ["gleam"]="gleam"
-    ["mojo"]="mojo"
     ["haxe"]="haxe"
     ["flix"]="flix"
     ["bun"]="js"
