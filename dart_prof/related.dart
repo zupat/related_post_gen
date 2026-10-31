@@ -38,12 +38,13 @@ void main() {
 
   // preallocate and reuse
   final taggedPostCount = Uint8List(posts.length);
+  final zeroBuffer = Uint8List(posts.length);
 
   final allRelatedPosts = List.generate(posts.length, (i) {
     final post = posts[i];
 
     final t0 = sw.elapsedMicroseconds;
-    taggedPostCount.fillRange(0, posts.length, 0);
+    taggedPostCount.setRange(0, posts.length, zeroBuffer);
     final t1 = sw.elapsedMicroseconds;
 
     for (var j = 0; j < post.tags.length; j++) {
