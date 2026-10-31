@@ -1,8 +1,14 @@
-# Exact shared-tag counting: the same algorithm as go/rust/d. No FFI and no
-# unsafe code (AGENT.md section 3): the tag -> post index is a CSR of UInt32
-# (4-byte indices), counters are cleared with a safe `for ref` fill loop, and
-# top-5 selection mirrors go/d: one compare per candidate over fixed 5 slots.
+# Exact shared-tag counting: the same algorithm as go/rust/d. The tag -> post
+# index is a CSR of UInt32 (4-byte indices) and top-5 selection mirrors go/d: one
+# compare per candidate over fixed 5 slots, all through safe list indexing.
+#
+# AGENT.md forbids FFI, with one approved exception: the per-post counter reset
+# calls libc memset. Go's equivalent reset loop compiles to
+# runtime.memclrNoHeapPointers, so a byte-at-a-time loop would measure something
+# the other implementations do not do. `unsafe_ptr()` below exists only to hand
+# the buffer to memset; no other pointer or unsafe construct is used.
 from std.time import monotonic
+from std.ffi import external_call
 from std.os import abort
 
 
@@ -345,6 +351,8 @@ def main() raises:
             cursor[tid] += 1
 
     var counts = List[UInt8](length=size, fill=0)
+    # Exception to the no-FFI rule (see header): memset needs the buffer address.
+    var counts_ptr = counts.unsafe_ptr()
     var related = List[Int](length=size * 5, fill=-1)
     var best_v = List[Int](length=5, fill=0)
     var best_i = List[Int](length=5, fill=0)
@@ -385,10 +393,9 @@ def main() raises:
         for k in range(5):
             related[i * 5 + k] = best_i[k]
 
-        # Clear the counters for the next post. `for ref` iterates through the
-        # list without per-element bounds checks, like go's resetSlice loop.
-        for ref counter in counts:
-            counter = 0
+        # Clear the counters for the next post, like go's resetSlice loop, which
+        # the Go compiler lowers to runtime.memclrNoHeapPointers.
+        _ = external_call["memset", NoneType](counts_ptr, 0, size)
 
     var end = monotonic()
     var elapsed_ms = Float64(end - start) / 1_000_000.0
