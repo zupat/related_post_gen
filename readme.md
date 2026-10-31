@@ -68,8 +68,7 @@ docker run -e TEST_NAME=go -it --rm go_databench
 
 | Language         | Time (5k posts)                       | 20k posts                              | 60k posts                           | Total     |
 | ---------------- | ------------------------------------- | -------------------------------------- | ----------------------------------- | --------- |
-| Mojo | $\textsf{\color{lightgreen}9.17 ms}$ | $\textsf{\color{lightgreen}69.62 ms}$ | $\textsf{\color{lightgreen}565.02 ms}$ | 643.82 ms |
-| D (v2) | 13.38 ms | 153.50 ms | 1.20 s | 1.36 s |
+| D (v2) | $\textsf{\color{lightgreen}13.38 ms}$ | $\textsf{\color{lightgreen}153.50 ms}$ | $\textsf{\color{lightgreen}1.20 s}$ | 1.36 s |
 | c3 | 14.10 ms | 171.67 ms | 1.33 s | 1.52 s |
 | Rust | 13.56 ms | 172.45 ms | 1.40 s | 1.58 s |
 | Zig | 14.80 ms | 179.33 ms | 1.43 s | 1.63 s |
