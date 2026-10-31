@@ -1,13 +1,8 @@
-# Exact shared-tag counting: the same algorithm as go/rust/d. The hot paths are
-# tuned the way the other implementations are, because the naive port is ~5x
-# slower than Go for reasons that have nothing to do with the language:
-#   * counters are cleared with libc memset (Go's reset loop compiles to
-#     runtime.memclrNoHeapPointers, a per-byte loop does not)
-#   * the tag -> post index is a CSR of UInt32 instead of Int (4-byte indices)
-#   * counting and top-5 selection walk raw pointers, not bounds-checked List
-#   * selection mirrors go/d: one compare per candidate, fixed 5 slots
+# Exact shared-tag counting: the same algorithm as go/rust/d. No FFI and no
+# unsafe code (AGENT.md section 3): the tag -> post index is a CSR of UInt32
+# (4-byte indices), counters are cleared with a safe `for ref` fill loop, and
+# top-5 selection mirrors go/d: one compare per candidate over fixed 5 slots.
 from std.time import monotonic
-from std.ffi import external_call
 from std.os import abort
 
 
@@ -350,55 +345,50 @@ def main() raises:
             cursor[tid] += 1
 
     var counts = List[UInt8](length=size, fill=0)
-    var counts_ptr = counts.unsafe_ptr()
-    var starts_ptr = starts.unsafe_ptr()
-    var tag_indices_ptr = tag_indices.unsafe_ptr()
     var related = List[Int](length=size * 5, fill=-1)
     var best_v = List[Int](length=5, fill=0)
     var best_i = List[Int](length=5, fill=0)
-    var best_v_ptr = best_v.unsafe_ptr()
-    var best_i_ptr = best_i.unsafe_ptr()
 
     for i in range(size):
         ref ids = post_tag_ids[i]
-        # Count every shared tag exactly, walking the CSR with raw pointers.
+        # Count every shared tag exactly (the go/rust/d hot loop).
         for t in range(len(ids)):
             var tid = ids[t]
-            var lo = Int(starts_ptr[unsafe_offset=tid])
-            var hi = Int(starts_ptr[unsafe_offset=tid + 1])
+            var lo = Int(starts[tid])
+            var hi = Int(starts[tid + 1])
             for k in range(lo, hi):
-                var idx = Int(tag_indices_ptr[unsafe_offset=k])
-                counts_ptr[unsafe_offset=idx] = counts_ptr[unsafe_offset=idx] + 1
-        counts_ptr[unsafe_offset=i] = 0  # don't recommend the same post
+                var idx = Int(tag_indices[k])
+                counts[idx] = counts[idx] + 1
+        counts[i] = 0  # don't recommend the same post
 
         # Same shape as go/d: one compare per candidate and a fixed top-5.
         # counts[i] is already 0, so the self post is never selected and no
         # per-element self check is needed; cutoff starts at 0.
         for k in range(5):
-            best_v_ptr[unsafe_offset=k] = 0
-            best_i_ptr[unsafe_offset=k] = 0
+            best_v[k] = 0
+            best_i[k] = 0
         var cutoff = 0
         for j in range(size):
-            var c = Int(counts_ptr[unsafe_offset=j])
+            var c = Int(counts[j])
             if c > cutoff:
-                best_v_ptr[unsafe_offset=4] = c
-                best_i_ptr[unsafe_offset=4] = j
+                best_v[4] = c
+                best_i[4] = j
                 var q = 3
-                while q >= 0 and best_v_ptr[unsafe_offset=q] < c:
-                    best_v_ptr[unsafe_offset=q + 1] = best_v_ptr[unsafe_offset=q]
-                    best_i_ptr[unsafe_offset=q + 1] = best_i_ptr[unsafe_offset=q]
+                while q >= 0 and best_v[q] < c:
+                    best_v[q + 1] = best_v[q]
+                    best_i[q + 1] = best_i[q]
                     q -= 1
-                best_v_ptr[unsafe_offset=q + 1] = c
-                best_i_ptr[unsafe_offset=q + 1] = j
-                cutoff = best_v_ptr[unsafe_offset=4]
+                best_v[q + 1] = c
+                best_i[q + 1] = j
+                cutoff = best_v[4]
 
         for k in range(5):
-            related[i * 5 + k] = best_i_ptr[unsafe_offset=k]
+            related[i * 5 + k] = best_i[k]
 
-        # Full reset per post, like go's resetSlice / d's taggedPostsCount[] = 0.
-        # Go compiles that loop to runtime.memclrNoHeapPointers, so call the same
-        # kind of primitive here instead of a byte-at-a-time loop.
-        _ = external_call["memset", NoneType](counts_ptr, 0, size)
+        # Clear the counters for the next post. `for ref` iterates through the
+        # list without per-element bounds checks, like go's resetSlice loop.
+        for ref counter in counts:
+            counter = 0
 
     var end = monotonic()
     var elapsed_ms = Float64(end - start) / 1_000_000.0
