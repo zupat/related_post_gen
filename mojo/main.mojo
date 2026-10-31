@@ -1,10 +1,13 @@
-# Mojo's standard library has no JSON package, so this implementation carries a
-# small parser for the benchmark input. The hot loop groups posts by their
-# three-tag combinations: a candidate sharing s tags appears in exactly C(s, 3)
-# groups, so ranking by that count gives the same order as ranking by s while
-# touching far fewer entries than counting every co-tagged post. If fewer than
-# five posts share three tags, the fallback counts every shared tag exactly.
+# Exact shared-tag counting: the same algorithm as go/rust/d. The hot paths are
+# tuned the way the other implementations are, because the naive port is ~5x
+# slower than Go for reasons that have nothing to do with the language:
+#   * counters are cleared with libc memset (Go's reset loop compiles to
+#     runtime.memclrNoHeapPointers, a per-byte loop does not)
+#   * the tag -> post index is a CSR of UInt32 instead of Int (4-byte indices)
+#   * counting and top-5 selection walk raw pointers, not bounds-checked List
+#   * selection mirrors go/d: one compare per candidate, fixed 5 slots
 from std.time import monotonic
+from std.ffi import external_call
 from std.os import abort
 
 
@@ -290,36 +293,6 @@ def write_post(mut out: String, post: Post):
     out += "]}"
 
 
-def fill_top(
-    ref counts: List[UInt32],
-    ref source: List[Int],
-    self_idx: Int,
-    mut best_v: List[Int],
-    mut best_i: List[Int],
-) -> Int:
-    var filled = 0
-    var cutoff = -1
-    for tk in range(len(source)):
-        var j = source[tk]
-        if j == self_idx:
-            continue
-        var c = Int(counts[j])
-        if filled < 5 or c > cutoff:
-            var pos = filled
-            if pos > 4:
-                pos = 4
-            while pos > 0 and best_v[pos - 1] < c:
-                best_v[pos] = best_v[pos - 1]
-                best_i[pos] = best_i[pos - 1]
-                pos -= 1
-            best_v[pos] = c
-            best_i[pos] = j
-            if filled < 5:
-                filled += 1
-            cutoff = best_v[4]
-    return filled
-
-
 def main() raises:
     var f = open("../posts.json", "r")
     var raw = f.read()
@@ -330,10 +303,10 @@ def main() raises:
     var posts = parser.parse_posts()
     var size = len(posts)
 
-    # The timed region starts after parsing, like the other implementations:
-    # building the tag index and the three-tag groups is part of the work.
+    # Timed region starts after parsing, like the other implementations.
     var start = monotonic()
 
+    # tag -> post indices, flattened into CSR arrays (same shape as mojo/)
     var tag_to_id = Dict[String, Int]()
     var tag_freq = List[Int]()
     var post_tag_ids = List[List[Int]]()
@@ -358,143 +331,74 @@ def main() raises:
                 tag_freq[tid] += 1
         post_tag_ids.append(ids^)
 
-    # Sorted ids make the three-tag key unambiguous.
-    for i in range(size):
-        ref ids = post_tag_ids[i]
-        for a in range(1, len(ids)):
-            var v = ids[a]
-            var b = a - 1
-            while b >= 0 and ids[b] > v:
-                ids[b + 1] = ids[b]
-                b -= 1
-            ids[b + 1] = v
-
-    var starts = List[Int](length=len(tag_freq) + 1, fill=0)
+    var starts = List[UInt32](length=len(tag_freq) + 1, fill=0)
     var total_indices = 0
     for t in range(len(tag_freq)):
-        starts[t] = total_indices
+        starts[t] = UInt32(total_indices)
         total_indices += tag_freq[t]
-    starts[len(tag_freq)] = total_indices
+    starts[len(tag_freq)] = UInt32(total_indices)
 
-    var tag_indices = List[Int](length=total_indices, fill=0)
-    var cursor = starts.copy()
+    var tag_indices = List[UInt32](length=total_indices, fill=0)
+    var cursor = List[Int](length=len(tag_freq), fill=0)
+    for t in range(len(tag_freq)):
+        cursor[t] = Int(starts[t])
     for i in range(size):
         ref ids = post_tag_ids[i]
         for t in range(len(ids)):
             var tid = ids[t]
-            tag_indices[cursor[tid]] = i
+            tag_indices[cursor[tid]] = UInt32(i)
             cursor[tid] += 1
 
-    var num_tags = len(tag_freq)
-    # The related score is |tags(i) & tags(j)|. A candidate sharing s tags
-    # appears in exactly C(s,3) of the post's three-tag groups, so ranking by
-    # that count is the same as ranking by s. This avoids counting every
-    # co-tagged post when the top five all share at least three tags.
-    var triple_key_to_group = Dict[Int, Int]()
-    var triple_lists = List[List[Int]]()
-    for i in range(size):
-        ref ids = post_tag_ids[i]
-        for x in range(len(ids)):
-            var a = ids[x]
-            for y in range(x + 1, len(ids)):
-                var b = ids[y]
-                for z in range(y + 1, len(ids)):
-                    var c = ids[z]
-                    var key = (a * num_tags + b) * num_tags + c
-                    if key not in triple_key_to_group:
-                        triple_key_to_group[key] = len(triple_lists)
-                        triple_lists.append(List[Int]())
-                    triple_lists[triple_key_to_group[key]].append(i)
-
-    var num_groups = len(triple_lists)
-    var triple_offsets = List[Int](length=num_groups + 1, fill=0)
-    var triple_total = 0
-    for g in range(num_groups):
-        triple_offsets[g] = triple_total
-        triple_total += len(triple_lists[g])
-    triple_offsets[num_groups] = triple_total
-    var triple_indices = List[Int](length=triple_total, fill=0)
-    var triple_cursor = triple_offsets.copy()
-    for g in range(num_groups):
-        ref plist = triple_lists[g]
-        var at = triple_cursor[g]
-        for k in range(len(plist)):
-            triple_indices[at] = plist[k]
-            at += 1
-
+    var counts = List[UInt8](length=size, fill=0)
+    var counts_ptr = counts.unsafe_ptr()
+    var starts_ptr = starts.unsafe_ptr()
+    var tag_indices_ptr = tag_indices.unsafe_ptr()
     var related = List[Int](length=size * 5, fill=-1)
-    var best_v = List[Int](length=5, fill=-1)
-    var best_i = List[Int](length=5, fill=-1)
-    var triple_counts = List[UInt32](length=size, fill=0)
-    var touched = List[Int](capacity=size)
+    var best_v = List[Int](length=5, fill=0)
+    var best_i = List[Int](length=5, fill=0)
+    var best_v_ptr = best_v.unsafe_ptr()
+    var best_i_ptr = best_i.unsafe_ptr()
 
     for i in range(size):
-        touched.clear()
         ref ids = post_tag_ids[i]
-        for x in range(len(ids)):
-            var a = ids[x]
-            for y in range(x + 1, len(ids)):
-                var b = ids[y]
-                for z in range(y + 1, len(ids)):
-                    var c = ids[z]
-                    var key = (a * num_tags + b) * num_tags + c
-                    if key not in triple_key_to_group:
-                        continue
-                    var g = triple_key_to_group[key]
-                    var lo = triple_offsets[g]
-                    var hi = triple_offsets[g + 1]
-                    for k in range(lo, hi):
-                        var idx = triple_indices[k]
-                        var count = triple_counts[idx] + 1
-                        triple_counts[idx] = count
-                        if count == 1:
-                            touched.append(idx)
+        # Count every shared tag exactly, walking the CSR with raw pointers.
+        for t in range(len(ids)):
+            var tid = ids[t]
+            var lo = Int(starts_ptr[unsafe_offset=tid])
+            var hi = Int(starts_ptr[unsafe_offset=tid + 1])
+            for k in range(lo, hi):
+                var idx = Int(tag_indices_ptr[unsafe_offset=k])
+                counts_ptr[unsafe_offset=idx] = counts_ptr[unsafe_offset=idx] + 1
+        counts_ptr[unsafe_offset=i] = 0  # don't recommend the same post
+
+        # Same shape as go/d: one compare per candidate and a fixed top-5.
+        # counts[i] is already 0, so the self post is never selected and no
+        # per-element self check is needed; cutoff starts at 0.
+        for k in range(5):
+            best_v_ptr[unsafe_offset=k] = 0
+            best_i_ptr[unsafe_offset=k] = 0
+        var cutoff = 0
+        for j in range(size):
+            var c = Int(counts_ptr[unsafe_offset=j])
+            if c > cutoff:
+                best_v_ptr[unsafe_offset=4] = c
+                best_i_ptr[unsafe_offset=4] = j
+                var q = 3
+                while q >= 0 and best_v_ptr[unsafe_offset=q] < c:
+                    best_v_ptr[unsafe_offset=q + 1] = best_v_ptr[unsafe_offset=q]
+                    best_i_ptr[unsafe_offset=q + 1] = best_i_ptr[unsafe_offset=q]
+                    q -= 1
+                best_v_ptr[unsafe_offset=q + 1] = c
+                best_i_ptr[unsafe_offset=q + 1] = j
+                cutoff = best_v_ptr[unsafe_offset=4]
 
         for k in range(5):
-            best_v[k] = -1
-            best_i[k] = -1
-        var filled = fill_top(triple_counts, touched, i, best_v, best_i)
+            related[i * 5 + k] = best_i_ptr[unsafe_offset=k]
 
-        if filled < 5:
-            # Rare fallback: not enough posts share at least three tags, so
-            # count every shared tag exactly.
-            var counts = List[UInt8](length=size, fill=0)
-            for t in range(len(ids)):
-                var tid = ids[t]
-                var lo = starts[tid]
-                var hi = starts[tid + 1]
-                for k in range(lo, hi):
-                    var idx = tag_indices[k]
-                    counts[idx] += 1
-            counts[i] = 0
-            for k in range(5):
-                best_v[k] = -1
-                best_i[k] = -1
-            var pos_filled = 0
-            var cutoff = -1
-            for j in range(size):
-                if j == i:
-                    continue
-                var c = Int(counts[j])
-                if pos_filled < 5 or c > cutoff:
-                    var pos = pos_filled
-                    if pos > 4:
-                        pos = 4
-                    while pos > 0 and best_v[pos - 1] < c:
-                        best_v[pos] = best_v[pos - 1]
-                        best_i[pos] = best_i[pos - 1]
-                        pos -= 1
-                    best_v[pos] = c
-                    best_i[pos] = j
-                    if pos_filled < 5:
-                        pos_filled += 1
-                    cutoff = best_v[4]
-
-        for k in range(5):
-            related[i * 5 + k] = best_i[k]
-
-        for tk in range(len(touched)):
-            triple_counts[touched[tk]] = 0
+        # Full reset per post, like go's resetSlice / d's taggedPostsCount[] = 0.
+        # Go compiles that loop to runtime.memclrNoHeapPointers, so call the same
+        # kind of primitive here instead of a byte-at-a-time loop.
+        _ = external_call["memset", NoneType](counts_ptr, 0, size)
 
     var end = monotonic()
     var elapsed_ms = Float64(end - start) / 1_000_000.0
