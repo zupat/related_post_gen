@@ -43,10 +43,7 @@ void main() {
     final post = posts[i];
 
     final t0 = sw.elapsedMicroseconds;
-    // For now simply inline fillRange which is unfortunately too slow.
-    for (var i = 0; i < posts.length; i++) {
-      taggedPostCount[i] = 0;
-    }
+    taggedPostCount.fillRange(0, posts.length, 0);
     final t1 = sw.elapsedMicroseconds;
 
     for (var j = 0; j < post.tags.length; j++) {
