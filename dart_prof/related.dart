@@ -37,7 +37,7 @@ void main() {
   var profReset = 0;
 
   // preallocate and reuse
-  final taggedPostCount = Int32List(posts.length);
+  final taggedPostCount = Uint8List(posts.length);
 
   final allRelatedPosts = List.generate(posts.length, (i) {
     final post = posts[i];
