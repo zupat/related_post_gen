@@ -1,41 +1,41 @@
 
 Dart VM:
 
-	Processing time (w/o IO): 62ms
-	total: 0.44s memory: 194052k
-	Processing time (w/o IO): 63ms
-	total: 0.34s memory: 195004k
-	Processing time (w/o IO): 62ms
-	total: 0.34s memory: 194824k
-	Processing time (w/o IO): 62ms
-	total: 0.34s memory: 194700k
-	Processing time (w/o IO): 62ms
-	total: 0.34s memory: 194372k
+	Processing time (w/o IO): 72ms
+	total: 0.37s memory: 195884k
 	Processing time (w/o IO): 61ms
-	total: 0.33s memory: 194052k
-	Processing time (w/o IO): 73ms
-	total: 0.35s memory: 194552k
-	Processing time (w/o IO): 62ms
-	total: 0.33s memory: 194288k
-	Processing time (w/o IO): 73ms
-	total: 0.34s memory: 195236k
+	total: 0.35s memory: 195716k
+	Processing time (w/o IO): 71ms
+	total: 0.41s memory: 194804k
+	Processing time (w/o IO): 67ms
+	total: 0.38s memory: 195360k
 	Processing time (w/o IO): 61ms
-	total: 0.34s memory: 194028k
+	total: 0.35s memory: 194232k
+	Processing time (w/o IO): 60ms
+	total: 0.35s memory: 195416k
+	Processing time (w/o IO): 62ms
+	total: 0.35s memory: 195112k
+	Processing time (w/o IO): 62ms
+	total: 0.40s memory: 194996k
+	Processing time (w/o IO): 62ms
+	total: 0.37s memory: 198968k
+	Processing time (w/o IO): 61ms
+	total: 0.36s memory: 196160k
 
 Dart VM:
 
-	Processing time (w/o IO): 976ms
-	total: 1.45s memory: 256648k
-	Processing time (w/o IO): 978ms
-	total: 1.45s memory: 256444k
-	Processing time (w/o IO): 977ms
-	total: 1.44s memory: 256304k
+	Processing time (w/o IO): 678ms
+	total: 1.18s memory: 259644k
+	Processing time (w/o IO): 731ms
+	total: 1.24s memory: 257656k
+	Processing time (w/o IO): 846ms
+	total: 1.37s memory: 257092k
 
 Dart VM:
 
-	Processing time (w/o IO): 8554ms
-	total: 9.53s memory: 389640k
-	Processing time (w/o IO): 7616ms
-	total: 8.60s memory: 385248k
-	Processing time (w/o IO): 7164ms
-	total: 8.16s memory: 387592k
+	Processing time (w/o IO): 7640ms
+	total: 8.74s memory: 390620k
+	Processing time (w/o IO): 7693ms
+	total: 8.75s memory: 390348k
+	Processing time (w/o IO): 7650ms
+	total: 8.74s memory: 388396k
