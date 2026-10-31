@@ -96,7 +96,7 @@ docker run -e TEST_NAME=go -it --rm go_databench
 | Crystal | 47.81 ms | 658.87 ms | 5.71 s | 6.42 s |
 | TypeScript (scriptc) | 50.70 ms | 725.67 ms | 6.44 s | 7.21 s |
 | Ada | 59.08 ms | 802.16 ms | 6.90 s | 7.76 s |
-| Dart VM | 64.10 ms | 977.00 ms | 7.78 s | 8.82 s |
+| Dart VM | 63.90 ms | 751.67 ms | 7.66 s | 8.48 s |
 | LuaJIT | 85.55 ms | 931.89 ms | 8.28 s | 9.30 s |
 | Haxe | 66.20 ms | 961.33 ms | 8.42 s | 9.45 s |
 | JS (Bun) | 76.30 ms | 960.00 ms | 8.74 s | 9.78 s |
