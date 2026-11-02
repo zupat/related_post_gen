@@ -371,8 +371,16 @@ func main: Int
 		i += 1
 	end
 
-	// For each post, count the number of shared tags with every other post
-	var taggedCount = Int[].alloc(postsCount)
+	// For each post, count the number of shared tags with every other post.
+	//
+	// Counts fit in a byte (at most 100 tags). The array is rounded up to a
+	// whole number of 64-bit words so it can be cleared with wide stores: a
+	// byte loop spends most of its time writing this array once per post, and
+	// Copper has no memset intrinsic to lower it to.
+	var countBytes = ((postsCount + 7) / 8) * 8
+	var taggedCount = Byte[].alloc(countBytes)
+	var taggedWords = taggedCount.as(Uint64[])
+	var wordCount = countBytes / 8
 	var top = Int[].alloc(topPostsCount * 2)
 	var relatedIndexes = Int[].alloc(postsCount * topPostsCount)
 
@@ -381,8 +389,8 @@ func main: Int
 		var post = posts[i]
 
 		var j = Int: 0
-		while j < postsCount
-			taggedCount[j] = 0
+		while j < wordCount
+			taggedWords[j] = 0
 			j += 1
 		end
 
@@ -411,7 +419,7 @@ func main: Int
 		var minTags = Int: 0
 		j = 0
 		while j < postsCount
-			var count = taggedCount[j]
+			var count = taggedCount[j].as(Int)
 			if count > minTags
 				var upperBound = (topPostsCount - 2) * 2
 				while upperBound >= 0 and count > top[upperBound]
