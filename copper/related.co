@@ -1,0 +1,500 @@
+import "std"
+
+const topPostsCount = Int: 5
+
+class Post
+	attr id: String
+	attr title: String
+	attr tags: Vector(String)
+end
+
+class JsonParser
+
+	attr p: String
+
+	def init(input: String)
+		self.p = input
+	end
+
+	def skipBlanks
+
+		loop
+			var c = self.p[]
+			if c == $  or c == .lf or c == .cr or c == .tab
+				self.p += 1
+			else
+				return
+			end
+		end
+
+	end
+
+	def parseString: String
+
+		assert(self.p[] == $")
+		self.p += 1
+
+		var buf: StringBuffer!
+		buf.init
+		defer buf.deinit
+
+		loop
+			var c = self.p[]
+			self.p += 1
+
+			if c == $"
+				break
+			elsif c == $\
+				c = self.p[]
+				self.p += 1
+
+				if c == $n
+					buf.addChar(.lf)
+				elsif c == $r
+					buf.addChar(.cr)
+				elsif c == $t
+					buf.addChar(.tab)
+				elsif c == $b
+					buf.addChar(8.as(Char))
+				elsif c == $f
+					buf.addChar(12.as(Char))
+				elsif c == $u
+					var value = Uint: 0
+					var i = Int: 0
+					while i < 4
+						var h = self.p[]
+						self.p += 1
+						value *= 16
+						if h >= $0 and h <= $9
+							value += (h - $0).as(Uint)
+						elsif h >= $a and h <= $f
+							value += (h - $a + 10).as(Uint)
+						elsif h >= $A and h <= $F
+							value += (h - $A + 10).as(Uint)
+						end
+						i += 1
+					end
+					buf.addCodePoint(value.as(CodePoint))
+				else
+					buf.addChar(c)
+				end
+			else
+				buf.addChar(c)
+			end
+		end
+
+		return buf.newString
+
+	end
+
+	def parseStringArray: Vector(String)
+
+		var values = Vector(String).alloc
+		values.init
+
+		self.skipBlanks
+		assert(self.p[] == $[)
+		self.p += 1
+		self.skipBlanks
+
+		if self.p[] == $]
+			self.p += 1
+			return values
+		end
+
+		loop
+			self.skipBlanks
+			values.add(self.parseString)
+			self.skipBlanks
+			var c = self.p[]
+			self.p += 1
+			if c == $]
+				break
+			end
+		end
+
+		return values
+
+	end
+
+	def skipValue
+
+		self.skipBlanks
+		var c = self.p[]
+
+		if c == $"
+			var s = self.parseString
+			s.delete
+		elsif c == $[
+			self.p += 1
+			self.skipBlanks
+			if self.p[] == $]
+				self.p += 1
+				return
+			end
+			loop
+				self.skipValue
+				self.skipBlanks
+				c = self.p[]
+				self.p += 1
+				if c == $]
+					break
+				end
+			end
+		elsif c == ${
+			self.p += 1
+			self.skipBlanks
+			if self.p[] == $}
+				self.p += 1
+				return
+			end
+			loop
+				self.skipBlanks
+				var key = self.parseString
+				key.delete
+				self.skipBlanks
+				assert(self.p[] == $:)
+				self.p += 1
+				self.skipValue
+				self.skipBlanks
+				c = self.p[]
+				self.p += 1
+				if c == $}
+					break
+				end
+			end
+		else
+			// Number, true, false or null: skip until a delimiter
+			loop
+				c = self.p[]
+				if c == $, or c == $] or c == $} or c == $  or c == .lf or c == .cr or c == .tab
+					break
+				end
+				self.p += 1
+			end
+		end
+
+	end
+
+	def parsePost: Post
+
+		self.skipBlanks
+		assert(self.p[] == ${)
+		self.p += 1
+		self.skipBlanks
+
+		var id = String: ""
+		var title = String: ""
+		var tags = Vector(String).alloc
+		tags.init
+
+		if self.p[] == $}
+			self.p += 1
+		else
+			loop
+				self.skipBlanks
+				var key = self.parseString
+				self.skipBlanks
+				assert(self.p[] == $:)
+				self.p += 1
+				self.skipBlanks
+
+				if key.isEqual("_id")
+					id = self.parseString
+					key.delete
+				elsif key.isEqual("title")
+					title = self.parseString
+					key.delete
+				elsif key.isEqual("tags")
+					tags = self.parseStringArray
+					key.delete
+				else
+					key.delete
+					self.skipValue
+				end
+
+				self.skipBlanks
+				var c = self.p[]
+				self.p += 1
+				if c == $}
+					break
+				end
+			end
+		end
+
+		var post = Post.alloc
+		post.id = id
+		post.title = title
+		post.tags = tags
+		return post
+
+	end
+
+	def parsePosts: Vector(Post)
+
+		var posts = Vector(Post).alloc
+		posts.init
+
+		self.skipBlanks
+		assert(self.p[] == $[)
+		self.p += 1
+		self.skipBlanks
+
+		if self.p[] == $]
+			self.p += 1
+			return posts
+		end
+
+		loop
+			posts.add(self.parsePost)
+			self.skipBlanks
+			var c = self.p[]
+			self.p += 1
+			if c == $]
+				break
+			end
+		end
+
+		return posts
+
+	end
+
+end
+
+func writeJsonString(out: StringBuffer, s: String)
+
+	out.addChar($")
+	var p = s
+	loop
+		var c = p[]
+		if c.isNul
+			break
+		end
+		p += 1
+
+		if c == $" or c == $\
+			out.addChar($\)
+			out.addChar(c)
+		elsif c == .lf
+			out.addString("\\n")
+		elsif c == .cr
+			out.addString("\\r")
+		elsif c == .tab
+			out.addString("\\t")
+		elsif c < 32
+			out.addString("\\u00")
+			var hi = (c >> 4) & 15
+			var lo = c & 15
+			var hiChar: Char
+			var loChar: Char
+			if hi < 10
+				hiChar = hi + $0
+			else
+				hiChar = hi + $A - 10
+			end
+			if lo < 10
+				loChar = lo + $0
+			else
+				loChar = lo + $A - 10
+			end
+			out.addChar(hiChar)
+			out.addChar(loChar)
+		else
+			out.addChar(c)
+		end
+	end
+	out.addChar($")
+
+end
+
+func writePost(out: StringBuffer, post: Post)
+
+	out.addChar(${)
+	out.addString("\"_id\":")
+	writeJsonString(out, post.id)
+	out.addString(",\"title\":")
+	writeJsonString(out, post.title)
+	out.addString(",\"tags\":[")
+	var i = Int: 0
+	while i < post.tags.size
+		if i > 0
+			out.addChar($,)
+		end
+		writeJsonString(out, post.tags[i])
+		i += 1
+	end
+	out.addString("]}")
+
+end
+
+func main: Int
+
+	// Read the whole input file
+	var buffer: MemoryBuffer!
+	buffer.init
+	defer buffer.deinit
+
+	var err = File.readContent(buffer, "../posts.json")
+	if err.nok
+		println("Cannot read posts.json")
+		return 1
+	end
+
+	var input = buffer.base.as(String)
+
+	var parser: JsonParser!
+	parser.init(input)
+	var posts = parser.parsePosts
+	var postsCount = posts.size
+
+	var start = MonotonicTime.now
+
+	// Build the tag -> list of post indexes map
+	var tagMap = Dictionary(String, Vector(Int)).alloc
+	tagMap.initWithCapacity(101)
+
+	var i = Int: 0
+	while i < postsCount
+		var post = posts[i]
+		var t = Int: 0
+		while t < post.tags.size
+			var tag = post.tags[t]
+			var indexes = tagMap[tag]
+			if indexes == nil
+				indexes = Vector(Int).alloc
+				indexes.init
+				tagMap.put(tag, indexes)
+			end
+			indexes.add(i)
+			t += 1
+		end
+		i += 1
+	end
+
+	// For each post, count the number of shared tags with every other post
+	var taggedCount = Int[].alloc(postsCount)
+	var top = Int[].alloc(topPostsCount * 2)
+	var relatedIndexes = Int[].alloc(postsCount * topPostsCount)
+
+	i = 0
+	while i < postsCount
+		var post = posts[i]
+
+		var j = Int: 0
+		while j < postsCount
+			taggedCount[j] = 0
+			j += 1
+		end
+
+		var t = Int: 0
+		while t < post.tags.size
+			var indexes = tagMap[post.tags[t]]
+			if indexes <> nil
+				var k = Int: 0
+				while k < indexes.size
+					taggedCount[indexes[k]] += 1
+					k += 1
+				end
+			end
+			t += 1
+		end
+
+		// A post is not related to itself
+		taggedCount[i] = 0
+
+		j = 0
+		while j < topPostsCount * 2
+			top[j] = 0
+			j += 1
+		end
+
+		var minTags = Int: 0
+		j = 0
+		while j < postsCount
+			var count = taggedCount[j]
+			if count > minTags
+				var upperBound = (topPostsCount - 2) * 2
+				while upperBound >= 0 and count > top[upperBound]
+					top[upperBound + 2] = top[upperBound]
+					top[upperBound + 3] = top[upperBound + 1]
+					upperBound -= 2
+				end
+				top[upperBound + 2] = count
+				top[upperBound + 3] = j
+				minTags = top[topPostsCount * 2 - 2]
+			end
+			j += 1
+		end
+
+		j = 0
+		while j < topPostsCount
+			relatedIndexes[i * topPostsCount + j] = top[j * 2 + 1]
+			j += 1
+		end
+
+		i += 1
+	end
+
+	var stop = MonotonicTime.now
+	var duration = stop ~ start
+	var milliseconds = duration / 1000
+
+	println("Processing time (w/o IO): \ams", milliseconds)
+
+	var output: StringBuffer!
+	output.init
+	defer output.deinit
+
+	output.addChar($[)
+
+	i = 0
+	while i < postsCount
+		var post = posts[i]
+
+		if i > 0
+			output.addChar($,)
+		end
+		output.addString("{\"_id\":")
+		writeJsonString(output, post.id)
+		output.addString(",\"title\":")
+		writeJsonString(output, post.title)
+		output.addString(",\"tags\":[")
+		var t = Int: 0
+		while t < post.tags.size
+			if t > 0
+				output.addChar($,)
+			end
+			writeJsonString(output, post.tags[t])
+			t += 1
+		end
+		output.addString("],\"related\":[")
+
+		var j = Int: 0
+		while j < topPostsCount
+			if j > 0
+				output.addChar($,)
+			end
+			writePost(output, posts[relatedIndexes[i * topPostsCount + j]])
+			j += 1
+		end
+
+		output.addString("]}")
+
+		i += 1
+	end
+
+	output.addChar($])
+
+	var file: File!
+	file.init
+	err = file.open("../related_posts_copper.json", .write)
+	if err.ok
+		var written, writeErr = file.write(output.base, output.size)
+		if writeErr.ok
+			err = file.close
+		end
+	end
+
+	return 0
+
+end

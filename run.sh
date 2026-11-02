@@ -915,6 +915,16 @@ run_neat() {
         check_output "related_posts_neat.json"
 }
 
+run_copper() {
+    echo "Running Copper" &&
+        cd ./copper &&
+        if [ -z "$appendToFile" ]; then # only build on 5k run
+            copper -o related ./related.co
+        fi &&
+        run_command "Copper" $runs ./related &&
+        check_output "related_posts_copper.json"
+}
+
 check_output() {
     cd ..
 
@@ -1245,6 +1255,10 @@ elif [ "$first_arg" = "neat" ]; then
 
     run_neat
 
+elif [ "$first_arg" = "copper" ]; then
+
+    run_copper
+
 elif [ "$first_arg" = "ada" ]; then
 
     run_ada
@@ -1324,6 +1338,7 @@ elif [ "$first_arg" = "all" ]; then
         run_scala_native || echo -e "\n" &&
         # run_inko || echo -e "\n" &&
         run_neat || echo -e "\n" &&
+        run_copper || echo -e "\n" &&
         run_common_lisp_sbcl || echo -e "\n" &&
         # run_r || echo -e "\n" && # remove for now until docker is setup
         run_haskell || echo -e "\n" &&
@@ -1382,12 +1397,14 @@ elif [ "$first_arg" = "clean" ]; then
         cd .. &&
         cd flix && rm -rf artifact build lib packages.lock &&
         cd .. &&
+        cd copper && rm -f related &&
+        cd .. &&
         cd java && mvn -q -B clean &&
         cd .. &&
         rm -f related_*.json
 
 else
 
-    echo "Valid args: go | go_con | go_ho | rust | rust_con | d | d_con | r | py | numpy | erlang | cl | numba | numba_con | cr | zig_fast | zig_con | odin | c3 | jq | julia | julia_highly_optimized | julia_con | v | dart | swift | swift_con | node | bun | deno | perry | scriptc | fortran | hare | flix | nax | haxe | gleam | mojo | java | java_graal | java_graal_con | nim | luajit | lua | fsharp | fsharp_aot | fsharp_con | csharp | csharp_aot | | php | dascript | all | clean. Unknown argument: $first_arg"
+    echo "Valid args: go | go_con | go_ho | rust | rust_con | d | d_con | r | py | numpy | erlang | cl | numba | numba_con | cr | zig_fast | zig_con | odin | c3 | jq | julia | julia_highly_optimized | julia_con | v | dart | swift | swift_con | node | bun | deno | perry | scriptc | fortran | hare | flix | nax | copper | haxe | gleam | mojo | java | java_graal | java_graal_con | nim | luajit | lua | fsharp | fsharp_aot | fsharp_con | csharp | csharp_aot | | php | dascript | all | clean. Unknown argument: $first_arg"
 
 fi
