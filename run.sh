@@ -919,7 +919,7 @@ run_copper() {
     echo "Running Copper" &&
         cd ./copper &&
         if [ -z "$appendToFile" ]; then # only build on 5k run
-            copper --cc -o related ./related.co
+            copper -o related ./related.co
         fi &&
         run_command "Copper" $runs ./related &&
         check_output "related_posts_copper.json"

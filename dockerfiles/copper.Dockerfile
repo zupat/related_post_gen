@@ -21,20 +21,13 @@ RUN curl -fsSL -o /tmp/copper.tar.gz \
     make CC="gcc -std=gnu17" boot-elf64 && \
     install -m 755 scripts/copper /usr/local/bin/copper && \
     install -m 755 build/stage3/copper-elf64 /usr/local/bin/copper-elf64 && \
-    install -m 755 build/copper-c /usr/local/bin/copper-c && \
     mkdir -p /usr/local/share/copper/include/std && \
     cp -r lib/std/include /usr/local/share/copper/include/std/include && \
     cp lib/std/index.co /usr/local/share/copper/include/std/ && \
     install -m 644 build/libcopper-std.a /usr/local/lib/ && \
     ldconfig && \
     cd / && rm -rf /tmp/copper.tar.gz /tmp/copper-11.1
-
-# The elf64 backend has no memset intrinsic, so its clear loops are emitted as
-# scalar stores. Compile through the C backend with optimization instead: GCC
-# recognises the clear loops and emits memset (and optimizes the rest of the
-# compute loops as well). --cc is an official Copper backend, not FFI.
-RUN sed -i 's/^CC=gcc$/CC="gcc -O3"/' /usr/local/bin/copper && \
-    copper --help > /dev/null
+RUN copper --help > /dev/null
 
 # No #precompile block: this image is added before copper/ exists on the
 # upstream main branch, so a clone-and-run at image-build time would fail.
