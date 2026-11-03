@@ -90,3 +90,6 @@ flix/artifact/
 flix/build/
 flix/lib/
 flix/packages.lock
+
+# Goose
+goose/related
