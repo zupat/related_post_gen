@@ -72,6 +72,12 @@ fortran/related
 # Hare
 hare/related
 
+# MoonBit
+moonbit/related
+moonbit/_build/
+moonbit/target/
+moonbit/.mooncakes/
+
 # Nax
 nax/related
 

@@ -473,6 +473,17 @@ run_goose() {
         check_output "related_posts_goose.json"
 }
 
+run_moonbit() {
+    echo "Running MoonBit" &&
+        cd ./moonbit &&
+        if [ -z "$appendToFile" ]; then # only build on 5k run
+            moon build --target native --release &&
+                cp _build/native/release/build/main/main.exe ./related
+        fi &&
+        run_command "MoonBit" $runs ./related &&
+        check_output "related_posts_moonbit.json"
+}
+
 run_nax() {
     echo "Running Nax" &&
         cd ./nax &&
@@ -1097,6 +1108,10 @@ elif [ "$first_arg" = "goose" ]; then
 
     run_goose
 
+elif [ "$first_arg" = "moonbit" ]; then
+
+    run_moonbit
+
 elif [ "$first_arg" = "nax" ]; then
 
     run_nax
@@ -1320,6 +1335,7 @@ elif [ "$first_arg" = "all" ]; then
         run_fortran || echo -e "\n" &&
         run_hare || echo -e "\n" &&
         run_goose || echo -e "\n" &&
+        run_moonbit || echo -e "\n" &&
         run_nax || echo -e "\n" &&
         run_haxe || echo -e "\n" &&
         run_gleam || echo -e "\n" &&
@@ -1404,6 +1420,8 @@ elif [ "$first_arg" = "clean" ]; then
         cd .. &&
         cd goose && rm -f related &&
         cd .. &&
+        cd moonbit && rm -f related && rm -rf _build .mooncakes &&
+        cd .. &&
         cd nax && rm -f related &&
         cd .. &&
         cd haxe && rm -rf bin &&
@@ -1422,6 +1440,6 @@ elif [ "$first_arg" = "clean" ]; then
 
 else
 
-    echo "Valid args: go | go_con | go_ho | rust | rust_con | d | d_con | r | py | numpy | erlang | cl | numba | numba_con | cr | zig_fast | zig_con | odin | c3 | jq | julia | julia_highly_optimized | julia_con | v | dart | swift | swift_con | node | bun | deno | perry | scriptc | fortran | hare | goose | flix | nax | copper | haxe | gleam | mojo | java | java_graal | java_graal_con | nim | luajit | lua | fsharp | fsharp_aot | fsharp_con | csharp | csharp_aot | | php | dascript | all | clean. Unknown argument: $first_arg"
+    echo "Valid args: go | go_con | go_ho | rust | rust_con | d | d_con | r | py | numpy | erlang | cl | numba | numba_con | cr | zig_fast | zig_con | odin | c3 | jq | julia | julia_highly_optimized | julia_con | v | dart | swift | swift_con | node | bun | deno | perry | scriptc | fortran | hare | goose | moonbit | flix | nax | copper | haxe | gleam | mojo | java | java_graal | java_graal_con | nim | luajit | lua | fsharp | fsharp_aot | fsharp_con | csharp | csharp_aot | | php | dascript | all | clean. Unknown argument: $first_arg"
 
 fi

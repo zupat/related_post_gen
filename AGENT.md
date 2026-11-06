@@ -118,7 +118,7 @@ the whole Dockerfile by `gen_dockerfile.sh`; the old behaviour (merge into a sha
   `julia:1.11-bookworm`, `swift:6.4.1-bookworm`, `dotnet/sdk:10.0.402`, `node:22-bookworm-slim`,
   `crystallang/crystal:1.22.0`, `python:3.12-slim`) or `debian:12-slim` + apt/pinned tarball
   (zig 0.17.0, odin dev-2026-10, nim 2.2.6, v 0.5.2, c3 0.8.5_1, neat 0.7.1,
-  hare 0.26.0.1, goose v2026.3 release tarball, …).
+  hare 0.26.0.1, goose v2026.3 release tarball, moonbit 0.10.19, …).
 - Each image must carry the **harness**: `git`, `python3` + `faker`/`nanoid`, GNU `time`,
   `which`, `curl`/`wget`, and (where a runner calls it) `sudo`. It must also end with the
   same tail: `WORKDIR /app`, `VOLUME /results`, the `GIT_*`/`RUN2`/`RUN3`/`TEST_NAME` env,
@@ -378,7 +378,7 @@ dart extract_results.dart results
 
 ## 13. Current state (as of the Debian migration)
 
-- 39 self-contained images, 73 tests, no Arch packages anywhere. `inko` was dropped
+- 41 self-contained images, 75 tests, no Arch packages anywhere. `inko` was dropped
   (never published, no results file, Arch-AUR-only recipe).
 - Heavy images are `swift`, `dotnet`, `java` (GraalVM + sbt), `base` (Dart SDK + clang).
 - Version pins live in the fragments with comments explaining why (zig, odin, nim, v, c3,
