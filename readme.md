@@ -81,8 +81,10 @@ docker run -e TEST_NAME=go -it --rm go_databench
 | C# (JIT) | 20.89 ms | 275.58 ms | 2.17 s | 2.47 s |
 | Fortran | 14.30 ms | 230.00 ms | 2.29 s | 2.54 s |
 | C# (AOT) | 29.63 ms | 282.96 ms | 2.43 s | 2.74 s |
+| Goose | 21.42 ms | 303.26 ms | 2.68 s | 3.00 s |
 | F# (JIT) | 23.85 ms | 346.59 ms | 3.05 s | 3.42 s |
 | Julia | 21.53 ms | 334.98 ms | 3.10 s | 3.46 s |
+| MoonBit | 25.85 ms | 354.86 ms | 3.26 s | 3.64 s |
 | Java (JIT) | 28.00 ms | 378.33 ms | 3.31 s | 3.71 s |
 | Java (GraalVM) | 23.90 ms | 357.33 ms | 3.37 s | 3.75 s |
 | Haskell | 34.04 ms | 437.22 ms | 3.71 s | 4.18 s |
@@ -91,6 +93,7 @@ docker run -e TEST_NAME=go -it --rm go_databench
 | Swift | 27.57 ms | 362.25 ms | 4.06 s | 4.45 s |
 | Common Lisp (SBCL) | 36.00 ms | 470.00 ms | 4.11 s | 4.62 s |
 | Numba | 48.91 ms | 576.45 ms | 4.55 s | 5.18 s |
+| Copper | 37.70 ms | 533.33 ms | 4.71 s | 5.29 s |
 | Scala Native | 64.10 ms | 651.67 ms | 5.16 s | 5.87 s |
 | Hare | 42.39 ms | 614.00 ms | 5.47 s | 6.13 s |
 | Crystal | 47.81 ms | 658.87 ms | 5.71 s | 6.42 s |
