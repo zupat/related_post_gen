@@ -141,6 +141,15 @@ fn top5(
         for j in n { counts[j] = 0; }
 
         let p = posts[i];
+        // Profile note: this counting block is the hotspot, and its cost is a
+        // redundant bounds check. `by_tag[c]` and `counts[...]` are each
+        // bounds-checked, because the compiler cannot prove that c stays in
+        // [tag_start[tag], tag_start[tag + 1]); Go's slice range only needs the
+        // second check. At 60k posts the loop costs ~2,149 ms here against
+        // ~1,130 ms for Go, so the extra check is worth ~1,000 ms. Rewriting
+        // the walk as `for v in by_tag[s..e]` drops it, but it perturbs
+        // register allocation in this function and nearly quadruples the top-5
+        // scan (whole run 2,656 -> 3,166 ms), so the loop is left as written.
         for k in p.tags_len {
             let tag = post_tags[p.tags_off + k] as i64;
             let s = tag_start[tag];
