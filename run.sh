@@ -915,6 +915,14 @@ run_r() {
     echo "Running R" &&
         cd ./r &&
         run_command "R" $slow_lang_runs Rscript ./related.R &&
+        cp related_posts_r.json ../related_posts_r.json &&
+        check_output "related_posts_r.json"
+}
+
+run_r_tabulate() {
+    echo "Running R (tabulate)" &&
+        cd ./r &&
+        run_command "R (tabulate)" $slow_lang_runs Rscript ./related_tabulate.R &&
         check_output "related_posts_r.json"
 }
 
@@ -1276,6 +1284,10 @@ elif [ "$first_arg" = "r" ]; then
 
     run_r
 
+elif [ "$first_arg" = "r_tabulate" ]; then
+
+    run_r_tabulate
+
 elif [ "$first_arg" = "inko" ]; then
 
     run_inko
@@ -1371,7 +1383,8 @@ elif [ "$first_arg" = "all" ]; then
         run_neat || echo -e "\n" &&
         run_copper || echo -e "\n" &&
         run_common_lisp_sbcl || echo -e "\n" &&
-        # run_r || echo -e "\n" && # remove for now until docker is setup
+        run_r || echo -e "\n" &&
+        run_r_tabulate || echo -e "\n" &&
         run_haskell || echo -e "\n" &&
         echo -e "Finished running all\n"
 
