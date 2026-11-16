@@ -33,6 +33,10 @@ if [[ -n $outfile ]]; then
     # place. Resolve it once: every "tee -a $outfile" then hits the same file,
     # wherever the runner cd'd to.
     outfile="$(cd "$(dirname "$outfile")" && pwd)/$(basename "$outfile")"
+    outfile_size_before=0
+    if [ -f "$outfile" ]; then
+        outfile_size_before=$(wc -c < "$outfile")
+    fi
 fi
 
 time="$(which gtime 2>/dev/null || which time 2>/dev/null)"
@@ -762,21 +766,21 @@ run_haskell() {
         check_output "related_posts_haskell.json"
 }
 
-run_d() {
+run_d() (
     echo "Running D" &&
         cd ./d &&
         dub build --build=release &&
         run_command "D" $runs ./related &&
         check_output "related_posts_d.json"
-}
+)
 
-run_d_v2() {
+run_d_v2() (
     echo "Running D v2" &&
         cd ./d_v2 &&
         dub build --build=release &&
         run_command "D (v2)" $runs ./related &&
         check_output "related_posts_d2.json"
-}
+)
 
 run_d_optimized() {
     echo "Running D Highly optimized" &&
@@ -881,7 +885,7 @@ run_lobster_cpp() {
 
     if [ -z "$lobster_bin" ]; then
         echo "Error: Lobster binary not found in PATH."
-        exit 1
+        return 1
     fi
 
     lobster_git_dir=$(dirname "$(dirname "$lobster_bin")")
@@ -914,7 +918,15 @@ run_scala_native() {
 run_r() {
     echo "Running R" &&
         cd ./r &&
-        run_command "R" $slow_lang_runs Rscript ./related.R &&
+        run_command "R" $slow_lang_runs Rscript -e 'source("related.R", echo=FALSE, print.eval=FALSE)' &&
+        cp related_posts_r.json ../related_posts_r.json &&
+        check_output "related_posts_r.json"
+}
+
+run_r_tabulate() {
+    echo "Running R (tabulate)" &&
+        cd ./r &&
+        run_command "R (tabulate)" $slow_lang_runs Rscript ./related_tabulate.R &&
         check_output "related_posts_r.json"
 }
 
@@ -1276,6 +1288,10 @@ elif [ "$first_arg" = "r" ]; then
 
     run_r
 
+elif [ "$first_arg" = "r_tabulate" ]; then
+
+    run_r_tabulate
+
 elif [ "$first_arg" = "inko" ]; then
 
     run_inko
@@ -1309,7 +1325,7 @@ elif [ "$first_arg" = "all" ]; then
         run_python || echo -e "\n" &&
         run_pypy || echo -e "\n" &&
         run_python_np || echo -e "\n" &&
-        numba_con || echo -e "\n" &&
+        run_python_numba_con || echo -e "\n" &&
 
         # run_python_numba || echo -e "\n" && break rules but very interesting
         run_crystal || echo -e "\n" &&
@@ -1371,7 +1387,8 @@ elif [ "$first_arg" = "all" ]; then
         run_neat || echo -e "\n" &&
         run_copper || echo -e "\n" &&
         run_common_lisp_sbcl || echo -e "\n" &&
-        # run_r || echo -e "\n" && # remove for now until docker is setup
+        run_r || echo -e "\n" &&
+        run_r_tabulate || echo -e "\n" &&
         run_haskell || echo -e "\n" &&
         echo -e "Finished running all\n"
 
@@ -1442,4 +1459,15 @@ else
 
     echo "Valid args: go | go_con | go_ho | rust | rust_con | d | d_con | r | py | numpy | erlang | cl | numba | numba_con | cr | zig_fast | zig_con | odin | c3 | jq | julia | julia_highly_optimized | julia_con | v | dart | swift | swift_con | node | bun | deno | perry | scriptc | fortran | hare | goose | moonbit | flix | nax | copper | haxe | gleam | mojo | java | java_graal | java_graal_con | nim | luajit | lua | fsharp | fsharp_aot | fsharp_con | csharp | csharp_aot | | php | dascript | all | clean. Unknown argument: $first_arg"
 
+fi
+
+if [[ -n "$outfile" ]]; then
+    outfile_size_after=0
+    if [ -f "$outfile" ]; then
+        outfile_size_after=$(wc -c < "$outfile")
+    fi
+    if ((outfile_size_after <= outfile_size_before)); then
+        echo "Error: no benchmark results were written to $outfile" >&2
+        exit 1
+    fi
 fi
