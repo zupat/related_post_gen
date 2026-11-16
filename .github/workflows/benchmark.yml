@@ -17,11 +17,12 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
 
-            - name: Setup R with r2u
-              uses: eddelbuettel/github-actions/r-ci@master
-
-            - name: Install R deps
-              run: Rscript -e 'install.packages(c("jsonlite", "fastmap", "yyjsonr", "here", "rlang"))'
+            - name: Install R and R deps
+              run: |
+                  curl -fLsS https://eddelbuettel.github.io/r-ci/run.sh -o r-ci-bootstrap.sh
+                  chmod 0755 r-ci-bootstrap.sh
+                  ./r-ci-bootstrap.sh bootstrap
+                  Rscript -e 'install.packages(c("jsonlite", "fastmap", "yyjsonr", "here", "rlang"))'
 
             - name: Install  Rust
               uses: dtolnay/rust-toolchain@stable
@@ -148,7 +149,7 @@ jobs:
                   test -s "$GITHUB_WORKSPACE/raw_results.md"
                   dart extract_results.dart "$GITHUB_WORKSPACE/raw_results.md"
             - name: Clean up
-              run: rm -rf odin_exe && rm hyperfine.deb && rm odin.zip && rm -rf vlang
+              run: rm -rf odin_exe && rm hyperfine.deb && rm odin.zip && rm -rf vlang && rm -f r-ci-bootstrap.sh
             - name: Create Pull Request
               uses: peter-evans/create-pull-request@v5
               with:
