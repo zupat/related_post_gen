@@ -774,13 +774,13 @@ run_d() (
         check_output "related_posts_d.json"
 )
 
-run_d_v2() {
+run_d_v2() (
     echo "Running D v2" &&
         cd ./d_v2 &&
         dub build --build=release &&
         run_command "D (v2)" $runs ./related &&
         check_output "related_posts_d2.json"
-}
+)
 
 run_d_optimized() {
     echo "Running D Highly optimized" &&
@@ -918,7 +918,7 @@ run_scala_native() {
 run_r() {
     echo "Running R" &&
         cd ./r &&
-        run_command "R" $slow_lang_runs Rscript ./related.R &&
+        run_command "R" $slow_lang_runs Rscript -e 'source("related.R", echo=FALSE, print.eval=FALSE)' &&
         cp related_posts_r.json ../related_posts_r.json &&
         check_output "related_posts_r.json"
 }
@@ -1325,7 +1325,7 @@ elif [ "$first_arg" = "all" ]; then
         run_python || echo -e "\n" &&
         run_pypy || echo -e "\n" &&
         run_python_np || echo -e "\n" &&
-        numba_con || echo -e "\n" &&
+        run_python_numba_con || echo -e "\n" &&
 
         # run_python_numba || echo -e "\n" && break rules but very interesting
         run_crystal || echo -e "\n" &&
