@@ -8,10 +8,6 @@ if (is.data.frame(jsonText)) {
     "title" = jsonText[["title"]][[i]],
     "tags" = jsonText[["tags"]][[i]]
   ))
-} else if (is.list(jsonText) && !is.null(jsonText[["posts"]])) {
-  post_records <- jsonText[["posts"]]
-} else if (is.list(jsonText)) {
-  post_records <- jsonText
 } else {
   stop("Expected a JSON array of posts.")
 }
