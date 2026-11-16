@@ -766,13 +766,13 @@ run_haskell() {
         check_output "related_posts_haskell.json"
 }
 
-run_d() {
+run_d() (
     echo "Running D" &&
         cd ./d &&
         dub build --build=release &&
         run_command "D" $runs ./related &&
         check_output "related_posts_d.json"
-}
+)
 
 run_d_v2() {
     echo "Running D v2" &&
@@ -885,7 +885,7 @@ run_lobster_cpp() {
 
     if [ -z "$lobster_bin" ]; then
         echo "Error: Lobster binary not found in PATH."
-        exit 1
+        return 1
     fi
 
     lobster_git_dir=$(dirname "$(dirname "$lobster_bin")")
