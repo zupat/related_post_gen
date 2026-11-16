@@ -33,6 +33,10 @@ if [[ -n $outfile ]]; then
     # place. Resolve it once: every "tee -a $outfile" then hits the same file,
     # wherever the runner cd'd to.
     outfile="$(cd "$(dirname "$outfile")" && pwd)/$(basename "$outfile")"
+    outfile_size_before=0
+    if [ -f "$outfile" ]; then
+        outfile_size_before=$(wc -c < "$outfile")
+    fi
 fi
 
 time="$(which gtime 2>/dev/null || which time 2>/dev/null)"
@@ -1455,4 +1459,15 @@ else
 
     echo "Valid args: go | go_con | go_ho | rust | rust_con | d | d_con | r | py | numpy | erlang | cl | numba | numba_con | cr | zig_fast | zig_con | odin | c3 | jq | julia | julia_highly_optimized | julia_con | v | dart | swift | swift_con | node | bun | deno | perry | scriptc | fortran | hare | goose | moonbit | flix | nax | copper | haxe | gleam | mojo | java | java_graal | java_graal_con | nim | luajit | lua | fsharp | fsharp_aot | fsharp_con | csharp | csharp_aot | | php | dascript | all | clean. Unknown argument: $first_arg"
 
+fi
+
+if [[ -n "$outfile" ]]; then
+    outfile_size_after=0
+    if [ -f "$outfile" ]; then
+        outfile_size_after=$(wc -c < "$outfile")
+    fi
+    if ((outfile_size_after <= outfile_size_before)); then
+        echo "Error: no benchmark results were written to $outfile" >&2
+        exit 1
+    fi
 fi

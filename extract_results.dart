@@ -40,14 +40,22 @@ void main(List<String> args) {
 
   if (filename == null) return print('Usage: extract <filename>');
 
-  final lines = FileSystemEntity.isFileSync(filename)
+  final inputType = FileSystemEntity.typeSync(filename);
+  if (inputType != FileSystemEntityType.file &&
+      inputType != FileSystemEntityType.directory) {
+    stderr.writeln('Results input not found or unsupported: $filename');
+    exitCode = 1;
+    return;
+  }
+
+  final lines = inputType == FileSystemEntityType.file
       ? File(filename).readAsLinesSync()
       : Directory(filename)
-            .listSync()
-            .whereType<File>()
-            .where((f) => f.path.endsWith('.md'))
-            .expand((f) => f.readAsLinesSync())
-            .toList();
+          .listSync()
+          .whereType<File>()
+          .where((f) => f.path.endsWith('.md'))
+          .expand((f) => f.readAsLinesSync())
+          .toList();
 
   final scores = <String, List<Score>>{};
 
