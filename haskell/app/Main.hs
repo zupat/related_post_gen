@@ -1,5 +1,3 @@
-{-# LANGUAGE Strict #-}
-
 module Main (main) where
 
 import Control.DeepSeq (force)

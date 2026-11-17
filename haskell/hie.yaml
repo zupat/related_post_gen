@@ -1,0 +1,10 @@
+cradle:
+  cabal:
+    - path: "src"
+      component: "lib:related-post-gen"
+
+    - path: "app/Main.hs"
+      component: "related-post-gen:exe:related-post-gen"
+
+    - path: "bench/Main.hs"
+      component: "related-post-gen:bench:related-post-gen-bench"
